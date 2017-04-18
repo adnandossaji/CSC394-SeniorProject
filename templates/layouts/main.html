@@ -67,10 +67,17 @@
               </ul>
             </li>
           </ul>
+          {% if 'email' in session %}
+          <ul class="nav navbar-nav pull-right">
+            <li>{{ user.name }}</li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          </ul>
+          {% else %}
           <ul class="nav navbar-nav pull-right">
             <li><a href="{{ url_for('register') }}">Signup</a></li>
             <li><a href="{{ url_for('login') }}">Login</a></li>
           </ul>
+          {% endif %}
         </div><!--/.nav-collapse -->
       </div>
     </div>

@@ -8,17 +8,18 @@ from models import *
 
 class RegisterForm(Form):
     name = TextField(
-        'Username', validators=[]
+        'Username', validators=[DataRequired(), Length(min=6, max=25)]
     )
     email = TextField(
-        'Email', validators=[]
+        'Email', validators=[DataRequired(), Length(min=6, max=40)]
     )
     password = PasswordField(
-        'Password', validators=[]
+        'Password', validators=[DataRequired(), Length(min=6, max=40)]
     )
     confirm = PasswordField(
         'Repeat Password',
-        [EqualTo('password', message='Passwords must match')]
+        [DataRequired(),
+        EqualTo('password', message='Passwords must match')]
     )
     submit = SubmitField("Create account")
 
@@ -32,7 +33,7 @@ class RegisterForm(Form):
         user = User.query.filter_by(email = self.email.data.lower()).first()
 
         if user:
-            self.email.errors.append("That email is already taken")
+            self.email.errors = tuple(list("That email is already taken"))
             return False
 
         return
@@ -40,9 +41,21 @@ class RegisterForm(Form):
 
 
 class LoginForm(Form):
-    name = TextField('Username', [DataRequired()])
+    email = TextField('Email', [DataRequired()])
     password = PasswordField('Password', [DataRequired()])
 
+    submit = SubmitField("Sign in")
+
+    def validate(self):
+        # if not Form.validate(self):
+        #     return False
+
+        user = User.query.filter_by(email = self.email.data.lower()).first()
+        if user and user.password == self.password.data:
+            return True
+        else:
+            self.email.errors = tuple(list("Invalid e-mail or password"))
+            return False
 
 class ForgotForm(Form):
     email = TextField(

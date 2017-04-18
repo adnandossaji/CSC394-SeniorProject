@@ -2,7 +2,7 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
@@ -48,20 +48,49 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    return render_template('pages/placeholder.home.html')
+    user = None
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else: render_template('errors/404.html')
+
+    return render_template(
+        'pages/placeholder.home.html',
+        user=user
+    )
 
 
 @app.route('/about')
 def about():
-    hi = "hi"
-    return render_template('pages/placeholder.about.html', hi=hi)
+    user = None
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else: render_template('errors/404.html')
+
+    return render_template(
+        'pages/placeholder.about.html',
+        user=user,
+    )
 
 
-@app.route('/login/')
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
-    return render_template('forms/login.html', form=form)
+    if request.method == 'POST':
+        if form.validate() == False:
+          return render_template('forms/login.html', form=form)
+        else:
+          session['email'] = form.email.data
+          user = User.query.filter_by(email = session['email']).first()
 
+          return redirect(url_for('home'))
+    elif request.method == 'GET':
+        return render_template('forms/login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    form = LoginForm(request.form)
+    session.pop('email', None)
+    return redirect(url_for('home'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -75,15 +104,13 @@ def register():
                 form=form
             )
         else:
-
             user = User(form.name.data, form.email.data, form.password.data)
             db.session.add(user)
             db.session.commit()
 
-        return render_template(
-            'forms/register.html',
-            form=form
-        )
+            session['email'] = user.email
+
+        return render_template('pages/placeholder.home.html', user=user)
 
     elif request.method == 'GET':
 
