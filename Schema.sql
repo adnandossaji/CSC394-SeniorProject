@@ -24,12 +24,6 @@ CREATE TABLE UserPermissions
   CONSTRAINT pk_id PRIMARY KEY (id)
 );
 
-INSERT INTO UserPermissions (perms_id, perms_alias, perms_create, perms_delete)
-VALUES
-  (0, 'sysadmin',    1, 1, 1, 1),
-  (1, 'staff',       1, 1, 0, 0),
-  (2, 'student',     1, 0, 0, 0);
-
 CREATE TABLE Searches
 (
     search_id               INTEGER UNIQUE NOT NULL,

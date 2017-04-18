@@ -68,17 +68,29 @@ def register():
     form = RegisterForm(request.form)
 
     if request.method == 'POST':
-        pass
+        
+        if form.validate() == False:
+            return render_template(
+                'forms/register.html',
+                form=form
+            )
+        else:
+
+            user = User(form.name.data, form.email.data, form.password.data)
+            db.session.add(user)
+            db.session.commit()
+
+        return render_template(
+            'forms/register.html',
+            form=form
+        )
+
     elif request.method == 'GET':
 
         return render_template(
             'forms/register.html',
             form=form
         )
-    return render_template(
-        'forms/register.html',
-        form=form
-    )
 
 
 @app.route('/forgot')
