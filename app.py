@@ -57,16 +57,28 @@ def about():
     return render_template('pages/placeholder.about.html', hi=hi)
 
 
-@app.route('/login')
+@app.route('/login/')
 def login():
     form = LoginForm(request.form)
     return render_template('forms/login.html', form=form)
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
-    return render_template('forms/register.html', form=form)
+
+    if request.method == 'POST':
+        pass
+    elif request.method == 'GET':
+
+        return render_template(
+            'forms/register.html',
+            form=form
+        )
+    return render_template(
+        'forms/register.html',
+        form=form
+    )
 
 
 @app.route('/forgot')

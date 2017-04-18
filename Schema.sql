@@ -1,30 +1,28 @@
-
-BEGIN TRANSACTION;
-
+-- Made some changes to Users and UserPermissions to get them to work.
+-- Adnan Dossaji
 CREATE TABLE Users (
-  user_id           INTEGER         AUTOINCREMENT UNIQUE NOT NULL,
-  user_name         TEXT            UNIQUE NOT NULL,
-  user_email        VARCHAR(320)    UNIQUE NOT NULL,
-  user_password     TEXT            NOT NULL,
-  user_perms        INTEGER         NOT NULL,
-  user_active       BOOLEAN         NOT NULL,
+  id           INTEGER         AUTO INCREMENT UNIQUE NOT NULL,
+  name         TEXT            UNIQUE NOT NULL,
+  email        VARCHAR(320)    UNIQUE NOT NULL,
+  password     TEXT            NOT NULL,
+  perms        INTEGER         NOT NULL,
+  active       BOOLEAN         NOT NULL,
 
-  CONSTRAINT pk_user_id PRIMARY KEY (user_id),
-  CONSTRAINT fk_user_perms FOREIGN KEY (user_perms) REFERENCES UserPermissions (perms_id)
+  CONSTRAINT pk_id PRIMARY KEY (id),
+  CONSTRAINT fk_perms FOREIGN KEY (perms) REFERENCES UserPermissions (id)
 );
 
 CREATE TABLE UserPermissions
 (
-  perms_id              INTEGER     UNIQUE NOT NULL,
-  perms_alias           TEXT        UNIQUE NOT NULL,
-  perms_whatIf          BOOLEAN     NOT NULL,
-  perms_search          BOOLEAN     NOT NULL,
-  perms_edit_user       BOOLEAN     NOT NULL,
-  perms_edit_course     BOOLEAN     NOT NULL,
+  id              INTEGER     UNIQUE NOT NULL,
+  alias           TEXT        UNIQUE NOT NULL,
+  whatIf          BOOLEAN     NOT NULL,
+  search          BOOLEAN     NOT NULL,
+  edit_user       BOOLEAN     NOT NULL,
+  edit_course     BOOLEAN     NOT NULL,
 
-  CONSTRAINT pk_perms_id PRIMARY KEY (perms_id)
+  CONSTRAINT pk_id PRIMARY KEY (id)
 );
-
 
 INSERT INTO UserPermissions (perms_id, perms_alias, perms_create, perms_delete)
 VALUES
@@ -92,5 +90,3 @@ CREATE TABLE DegreeCourse
    CONSTRAINT fk_degree_id FOREIGN KEY (degree_id) REFERENCES Degrees(degree_id),
    CONSTRAINT fk_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 )
-
-COMMIT TRANSACTION;
