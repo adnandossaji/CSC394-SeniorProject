@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS CoursesTaken
    CONSTRAINT pk_taken_id PRIMARY KEY (course_id, user_id),
    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES Users(user_id),
    CONSTRAINT fk_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS Degrees
 (
@@ -69,8 +69,7 @@ CREATE TABLE IF NOT EXISTS Degrees
     degree_major            VARCHAR(100)    UNIQUE NOT NULL,
     degree_concentration    VARCHAR(100)    NOT NULL,
 
-    CONSTRAINT pk_degree_id PRIMARY KEY (degree_id),
-    CONSTRAINT fk_ FOREIGN KEY (consentration_name) REFERENCES Courses(course_consentration)
+    CONSTRAINT pk_degree_id PRIMARY KEY (degree_id)
 );
 
 CREATE TABLE IF NOT EXISTS DegreeCourse
@@ -82,4 +81,4 @@ CREATE TABLE IF NOT EXISTS DegreeCourse
    CONSTRAINT pk_degree_course_id PRIMARY KEY (degree_id, course_id),
    CONSTRAINT fk_degree_id FOREIGN KEY (degree_id) REFERENCES Degrees(degree_id),
    CONSTRAINT fk_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id)
-)
+);
