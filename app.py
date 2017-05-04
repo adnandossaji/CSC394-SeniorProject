@@ -48,14 +48,29 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    user = None
-    if 'email' in session:
-        user = User.query.filter_by(email = session['email']).first()
-    else: render_template('errors/404.html')
+	user = None
+	if 'email' in session:
+		user = User.query.filter_by(email = session['email']).first()
+	else:
+		render_template('errors/404.html')
 
-    return render_template(
-        'pages/placeholder.home.html',
-        user=user
+	# dummy path data
+	path = {
+	'Fall 2017': ['CSC 402', 'CSC 403'],
+	'Winter 2017': ['CSC 406', 'CSC 407'],
+	'Spring 2018': ['CSC 421', 'CSC 435'],
+	'Summer 2018': ['CSC 447', 'CSC 453'],
+	'Fall 2018': ['SE 450', 'CSC 436'],
+	'Winter 2018': ['CSC 438', 'CSC 439'],
+	'Spring 2019': ['CSC 443', 'CSC 448'],
+	'Summer 2019': ['CSC 461', 'CSC 462'],
+	'Fall 2019': ['CSC 471']
+	}
+	
+	return render_template(
+		'pages/placeholder.home.html',
+		user=user,
+		path=path
     )
 
 

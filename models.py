@@ -28,6 +28,7 @@ class User(Base):
         self.password = password
         self.perms = perms
         self.active = active
-
+		
+		
 # Create tables.
 Base.metadata.create_all(bind=engine)

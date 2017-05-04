@@ -2,9 +2,130 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<div class="page-header">
-  <h1>Sticky footer with fixed navbar</h1>
+<!-- Start Window -->
+<div class="container-fluid" >
+
+	<!-- Padding Row -->
+	<div class="row">&nbsp;</div>
+	
+	<!-- Start Main Row -->
+	<div class="row">
+	
+		<!-- Start Left Column -->
+		<div class="col-xs-12 col-md-6">
+		
+			<!-- Start User Info Panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Student Information</h4>
+				</div>
+				<table class="table table-striped">
+					<tr>
+						<td>Program:</td>
+						<td>Computer Science</td>
+					</tr>
+					<tr>
+						<td>Concentration:</td>
+						<td>Software and Systems Development</td>
+					</tr>
+					<tr>
+						<td>Starting Quarter:</td>
+						<td>Fall 2017</td>
+					</tr>
+					<tr>
+						<td>Delivery Preference:</td>
+						<td>In-class and Online</td>
+					</tr>
+					<tr>
+						<td>Classes per Quarter:</td>
+						<td>2</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End User Info Panel-->
+			
+			<!-- Start Course History Panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Course History</h4>
+				</div>
+				<div class="panel-body">
+					<p>CSC 400, CSC 401</p>
+				</div>
+			</div>
+			<!-- End Course History Panel-->
+			
+			<!-- Start Degree Progress Panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Degree Progress</h4>
+				</div>
+				<div class="panel-body">
+					<div class="progress">
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:15%">8 Credits Completed</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Degree Progress Panel -->
+			
+		</div>
+		<!-- End Left Column -->
+	
+		<!-- Start Right Column -->
+		<div class="col-xs-12 col-md-6">
+		
+			<!-- Start Path Panel -->
+			<div class="panel panel-default">
+			
+				<!-- Start Path Header -->
+				<div class="panel-heading">
+					<h4>Path to Graduation</h4>
+				</div>
+				<!-- End Path Header -->
+				
+				<!-- Start Path Body -->
+				<div class="panel-body">
+					<!-- Start Path Loop -->
+					{% for term in path %}
+					<h4>{{ term }}</h4>
+					<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
+						<ul>
+							<!-- Start Term Loop -->
+							{% for course in path[term] %}
+							<li>{{ course }}</li>
+							{% endfor %}
+							<!-- End Term Loop -->
+						</ul>
+					</div>
+					{% endfor %}
+					<!-- End Path Loop -->
+					
+				</div>
+				<!-- End Path Body -->
+				
+				<!-- Start Path Footer -->
+				<div class="panel-footer">
+					<div class="btn-group btn-group-justified">
+						<a href="#" class="btn btn-primary">New Path</a>
+						<a href="#" class="btn btn-danger">Save Path</a>
+					</div>
+				</div>
+				<!-- End Path Footer -->
+				
+				
+			</div>
+			<!-- End Path Panel -->
+			
+		</div>
+		<!-- End Right Column -->
+		
+	</div>
+	<!-- End Main Row -->
+	
+	<!-- Padding Row -->
+	<div class="row">&nbsp;</div>
+	
 </div>
-<p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p>
+<!-- End Window -->
 
 {% endblock %}
