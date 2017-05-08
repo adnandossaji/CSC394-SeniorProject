@@ -1,0 +1,201 @@
+# John Pridmore
+# 5/8/17
+# IS_Major_Requirements:
+# Desc:
+#   This course has almost all (75-80%) of all requirements for graduation with a
+#   masters degree in Information Systems, regardless of concentration
+
+# IS_IT_Bus_An
+{
+	'Major'  : 'Information Systems Business Analysis',
+	'phases' : [
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': ['IS 421', 'CSC 451', 'IS 422', 'IS 430']
+		},
+		{
+			'area'	 : 'Advanced Courses',
+			'courses': ['CNS 440', 'IS 435', 'IS 485', 'IS 535', 'IS 560']
+		},
+		{
+			'area'	 : 'Major Elective Courses',
+			'courses': [
+			'ECT 424', 'ECT 480' 'HCI 440', 'IS 431', 'IS 440',
+			'IS 455', 'IS 540', 'IS 556', 'IS 565', ' IS 578', 'SE 582'
+			]
+		},
+		{
+			'area'	 : 'Open Elective Courses',
+			'''
+			TODO add OPEN ELECTIVE COURSES
+			Any CNS, CSC, ECT, GAM, GPH, HCI, HIT, IS, IT, PM, SE, or TDC
+			course in the 421-699 range qualifies.
+ 			Credit for courses taken outside of CDM will only be given if approved by a faculty advisor.
+ 			'''
+			'courses': [None]
+		},
+		{
+			'area' 	  : 'Capstone',
+			'courses' : ['IS 577']
+		}
+	]
+}
+
+
+
+# IS_bus_int
+
+{
+	'major'  : 'Business Intelligence',
+	'phases' : [
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': [['IT 411', 'CSC 401'], 'IT 403']
+		}
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': ['IS 421', 'CSC 451', 'IS 422', 'IS 430']
+		},
+		{
+			'area'	 : 'Advanced Courses',
+			'courses': ['IS 574' , 'CSC 423', 'IS 467' , 'IS 549']
+		},
+		{
+			'area'	 : 'Major Elective Courses',
+			'courses': [
+ 				['CSC 424', 'CSC 495', 'CSC 575', 'ECT 584', 'GEO 441', 'HCI 512', 'IPD 451', 'IS 452', 'IS 456', 'IS 536', 'IS 550'],
+ 				['CSC 424', 'CSC 495', 'CSC 575', 'ECT 584', 'GEO 441', 'HCI 512', 'IPD 451', 'IS 452', 'IS 456', 'IS 536', 'IS 550'],
+ 				['CSC 424', 'CSC 495', 'CSC 575', 'ECT 584', 'GEO 441', 'HCI 512', 'IPD 451', 'IS 452', 'IS 456', 'IS 536', 'IS 550']
+			]
+		},
+		{
+			'area'    :  'Open Elective Courses',
+			'''
+			TODO add OPEN ELECTIVE COURSES
+			Any CNS, CSC, ECT, GAM, GPH, HCI, HIT, IS, IT, PM, SE, or TDC
+			course in the 421-699 range qualifies.
+ 			Credit for courses taken outside of CDM will only be given if approved by a faculty advisor.
+ 			'''
+			'courses' :  []
+		},
+		{
+			'area' 	  : 'Capstone',
+			'courses' : ['IS 577']
+		}
+	]
+}
+
+# IS_db_admin
+
+{
+	'major'  : 'Database Administration',
+	'phases' : [
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': [['IT 411', 'CSC 401']]
+		}
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': ['IS 421', 'CSC 451', 'IS 422', 'IS 430']
+		},
+		{
+			'area'	 : 'Advanced Courses',
+			'courses': ['CSC 452' , 'CSC 454', ''CSC 554'' , 'IS 549']
+		},
+		{
+			'area'	 : 'Major Elective Courses',
+			'courses': [
+				['CNS 440', 'IPD 451', 'IS 452', 'IS 505', 'IS 536', 'IS 550'],
+				['CNS 440', 'IPD 451', 'IS 452', 'IS 505', 'IS 536', 'IS 550'],
+				['CNS 440', 'IPD 451', 'IS 452', 'IS 505', 'IS 536', 'IS 550']
+			]
+		},
+		{
+			'area'    :  'Open Elective Courses',
+			'''
+			TODO add OPEN ELECTIVE COURSES
+			Any CNS, CSC, ECT, GAM, GPH, HCI, HIT, IS, IT, PM, SE, or TDC
+			course in the 421-699 range qualifies.
+ 			Credit for courses taken outside of CDM will only be given if approved by a faculty advisor.
+ 			'''
+			'courses' :  []
+		},
+		{
+			'area' 	  : 'Capstone',
+			'courses' : ['IS 577']
+		}
+	]
+}
+
+# IT Enterprise Management
+{
+	'major'  : 'IT Enterprise Management',
+	'phases' : [
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': ['IS 421', 'CSC 451', 'IS 422', 'IS 430']
+		},
+		{
+			'area'	 : 'Advanced Courses',
+			'courses': ['ECT 424', 'IS 556', 'IS 485', 'IS 535', 'IS 570']
+		},
+		{
+			'area'	 : 'Major Elective Courses',
+			'courses': [
+				['CNS 440', 'ECT 556', 'IS 440', 'IS 483', ['IS 500', 'MGT 500'], 'IS 505', 'IS 506', 'IS 535', 'IS 536', 'IS 540', 'IS 550', 'IS 560', 'IS 565', 'IS 579', 'IS 580'],
+				['CNS 440', 'ECT 556', 'IS 440', 'IS 483', ['IS 500', 'MGT 500'], 'IS 505', 'IS 506', 'IS 535', 'IS 536', 'IS 540', 'IS 550', 'IS 560', 'IS 565', 'IS 579', 'IS 580'],
+				['CNS 440', 'ECT 556', 'IS 440', 'IS 483', ['IS 500', 'MGT 500'], 'IS 505', 'IS 506', 'IS 535', 'IS 536', 'IS 540', 'IS 550', 'IS 560', 'IS 565', 'IS 579', 'IS 580']
+			]
+		},
+		{
+			'area'    :  'Open Elective Courses',
+			'''
+			TODO add OPEN ELECTIVE COURSES
+			Any CNS, CSC, ECT, GAM, GPH, HCI, HIT, IS, IT, PM, SE, or TDC
+			course in the 421-699 range qualifies.
+ 			Credit for courses taken outside of CDM will only be given if approved by a faculty advisor.
+ 			'''
+			'courses' :  []
+		},
+		{
+			'area' 	  : 'Capstone',
+			'courses' : ['IS 577']
+		}
+	]
+}
+
+# Information Systems (std concentration)
+{
+	'Major'  : 'Information Systems Business Analysis',
+	'phases' : [
+		{
+			'area' 	 : 'Foundation Courses',
+			'courses': ['IS 421', 'CSC 451', 'IS 422', 'IS 430']
+		},
+		{
+			'area'	 : 'Advanced Courses',
+			'courses': ['CNS 440', 'IS 435', 'IS 485', 'IS 535', 'IS 560']
+		},
+		{
+			'area'	 : 'Major Elective Courses',
+			'courses': [
+			'ECT 424', 'ECT 480' 'HCI 440', 'IS 431', 'IS 440',
+			'IS 455', 'IS 540', 'IS 556', 'IS 565', ' IS 578', 'SE 582'
+			]
+		},
+		{
+			'area'	 : 'Open Elective Courses',
+			'''
+			TODO add OPEN ELECTIVE COURSES
+			Any CNS, CSC, ECT, GAM, GPH, HCI, HIT, IS, IT, PM, SE, or TDC
+			course in the 421-699 range qualifies.
+ 			Credit for courses taken outside of CDM will only be given if approved by a faculty advisor.
+ 			'''
+			'courses': '[None]'
+		},
+		{
+			'area' 	  : 'Capstone',
+			'courses' : ['IS 577']
+		}
+	]
+}
