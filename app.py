@@ -74,6 +74,32 @@ def home():
     )
 
 
+@app.route('/admin')
+def admin():
+    user = None
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else:
+        render_template('errors/404.html')
+
+
+    students = []
+
+    for i in range(0,11):
+        students.append(
+            {
+                "name": "Student %s" % i,
+                "email": "student%s@mail.depaul.edu" % i,
+                "pending": True if i % 3 else False
+            }
+        )
+    
+    return render_template(
+        'pages/placeholder.admin.html',
+        user=user,
+        students=students
+    )
+
 @app.route('/about')
 def about():
     user = None
