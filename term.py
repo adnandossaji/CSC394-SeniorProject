@@ -36,30 +36,43 @@ class Course:
         return self.course_id == other.course_id
 
 class Term: 
-    # basic test data, should link to database here
-    # TODO: add summer and spring
-    CS301 = Course(301, [[]], 4, 0)
-    CS302 = Course(302, [[]], 4, 3)
-    CS321 = Course(321, [[301, 302]], 4, 0)
-    CS373 = Course(373, [[]], 4, 2)
-    CS374 = Course(374, [[CS373], [CS301, CS302]], 4, 3)
-    CS347 = Course(347, [[CS373], [CS301, CS302]], 4, 0)
-    CS480 = Course(480, [[CS321], [CS302], [CS301], [CS373, CS347]], 4, 0)
-    No    = Course(0, [[]], 0, 0)
-    Elec = Course(1, [[]], 4, 0)
-
-
-    off = {"Fall": [CS301, CS373, CS347, No, Elec], "Winter": [CS302, CS480, CS347, No, Elec]}
     ''' term object, TODO: link to database '''
     def __init__(self, name, year, assigned, offered):
-        CS301 = Course(301, [[]], 4, 0)
-        CS302 = Course(302, [[]], 4, 3)
-        CS321 = Course(321, [[301, 302]], 4, 0)
-        CS373 = Course(373, [[]], 4, 2)
-        CS374 = Course(374, [[CS373], [CS301, CS302]], 4, 3)
-        CS347 = Course(347, [[CS373], [CS301, CS302]], 4, 0)
-        CS480 = Course(480, [[CS321], [CS302], [CS301], [CS373, CS347]], 4, 0)
+        # basic test data, should link to database here
+        # intro
+        CS400 = Course(400, [[]], 4, 0)
+        CS401 = Course(401, [[]], 4, 1)
+        CS402 = Course(402, [[CS401]], 4, 2)
+        CS403 = Course(403, [[CS402]], 4, 1)
+        CS406 = Course(406, [[CS401]], 4, 2)
+        CS407 = Course(407, [[CS406], [CS402]], 4, 2)
 
+        intro = [CS400, CS401, CS402, CS403, CS406, CS407]
+
+        # foundation
+        CS421 = Course(421, [[CS400], [CS403]], 4, 3)
+        CS435 = Course(435, [[CS403], [CS407]], 4, 0)
+        CS447 = Course(447, [[CS403], [CS406]], 4, 2)
+        CS453 = Course(453, [[CS403]], 4, 0)
+        SE450 = Course(450, [[CS403]], 4, 1)
+
+        foundation = [CS421, CS435, CS447, CS453, SE450]
+
+        # concentration (software and systems development)
+        CS436 = Course(436, [[CS435], [CS447]], 4, 0)
+        CS438 = Course(438, [[CS407]], 4, 2)
+        CS461 = Course(461, [[CS400], [CS403], [CS406]], 4, 0)
+        CS472 = Course(472, [[CS403], [CS407]], 4, 0)
+        CS552 = Course(552, [[SE450], [CS407]], 4, 1)
+        CS595 = Course(595, [[]], 4, 0)
+        SE452 = Course(452, [[CS403]], 4, 2)
+        SE459 = Course(459, [[SE450]], 4, 0)
+        SE491 = Course(491, [[SE450]], 4, 3)
+
+        concentration = [CS436, CS438, CS461, CS472, CS552, CS595, SE459, SE491]
+        everyterm = intro + foundation + concentration
+
+        self.off = {"Fall": everyterm, "Winter": everyterm, "Spring": everyterm, "Summer": everyterm}
         # year of course
         self.year = year
         
@@ -72,13 +85,16 @@ class Term:
         # already assigned courses this term
         self.assigned = assigned
 
-        self.off = {"Fall": [CS301, CS373, CS347], "Winter": [CS301, CS347, CS480]}
 
     def next(self):
-        if self.name == "Fall":
-            return Term("Winter", self.year, self.assigned, self.off["Winter"][:])
+        if (self.name == "Winter"):
+            return Term("Spring", self.year, [], self.off["Spring"][:])
+        elif (self.name == "Spring"):
+            return Term("Summer", self.year, [], self.off["Winter"][:])
+        elif (self.name == "Summer"):
+            return Term("Fall", self.year, [], self.off["Fall"][:])
         else:
-            return Term("Fall", self.year + 1, self.assigned, self.off["Fall"][:])
+            return Term("Winter", self.year + 1, [], self.off["Winter"][:])
        
     def __lt__(self, other):
         return id(self) < other(self)

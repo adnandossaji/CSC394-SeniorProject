@@ -3,7 +3,7 @@ from copy import deepcopy
 
 class Node: 
 	'''node object for schedule tree'''
-	def __init__(self, path, cost, units_left, current_term, per_quarter, taken, required, parent):
+	def __init__(self, path, cost, units_left, current_term, per_quarter, taken, required, electives, parent):
 		# dictionary of path so far
 		self.path = path
 
@@ -22,8 +22,11 @@ class Node:
 		# set of courses have already either been previously taken or already assigned 
 		self.taken = set(taken)
 
-		# courses that need to be assigned for valid solution
+		# courses that need to be assigned for valid solution (intro and foundation)
 		self.required = required
+
+		# need some number of electives to graduate
+		self.electives = electives
 
 		# reference to parent
 		self.parent = parent
@@ -51,15 +54,16 @@ class Node:
 		# check if this term is full
 		if (len(next_term.assigned) >= self.per_quarter):
 			# check if we're out of terms
-			if (next_term.year == 2019 and next_term.name == "Winter"):
-				print("out of terms")
-				return None
+			if (next_term.year == 2020):
+				if (next_term.name == "Fall"):
+					print("out of terms")
+					return None
 			# otherwise, get next term and update cost
 			next_term = self.current_term.next()
 			new_cost = self.cost + 1
 
 		return Node(new_path, self.cost, self.units_left - course.units, next_term,
-					self.per_quarter, new_taken, self.required, self)
+					self.per_quarter, new_taken, self.required, self.electives, self)
 
 	def successor(self):
 		''' returns all valid non-conflicting courses that can follow current node'''
@@ -103,12 +107,22 @@ class Node:
 		if (self.units_left > 0):
 			return False
 
-		# check if all required courses are assigned
+		# check if all foundation and concentration courses are assigned
 		for req in self.required:
 			if req not in self.taken:
 				return False
 
+		# electives
+		elec_count = 0
+		for elec in self.electives:
+			if elec in self.taken:
+				elec_count += 1
+
+		if elec_count < 8:
+			return False
+
 		# otherwise, this is a valid schedule
+		print(self.units_left)
 		return True
 
 	def solution(self):
