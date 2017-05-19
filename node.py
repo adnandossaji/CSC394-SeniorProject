@@ -1,201 +1,126 @@
-from priority import *
-from copy import deepcopy
+from copy import copy
 
-class Node: 
-	'''node object for schedule tree'''
-	def __init__(self, path, cost, units_left, current_term, per_quarter, taken, required, electives, parent):
-		# dictionary of path so far
-		self.path = path
+class Node:
+	'''node object representing each assignment'''
+	def __init__(self, num_quarters, assigned, taken, taken_overall, days, units_left, quarter, year, per_quarter, parent):
+		# how many terms needed so far
+		self.num_quarters = num_quarters
 
-		# how many terms are already required/assigned, i.e., actual cost
-		self.cost = cost
+		# courses assigned to this term
+		self.assigned = assigned
 
-		# actual number of credits left to graduate
-		self.units_left = units_left
+		# set of courses taken so far (not including those assigned to current quarter for checking prerequisites)
+		self.taken = taken
 
-		# current term being assigned to
-		self.current_term = current_term
+		# set of courses taken overall (including those assigned to current quarter)
+		self.taken_overall = taken_overall
 
-		# number of courses to assign per quarter
+		# list of days already occupied (not online)
+		self.days = days
+
+		# units left to graduate
+		self.units_left = units_left 
+
+		# current quarter 
+		self.quarter = quarter
+
+		# current year
+		self.year = year
+
+		# max classes to assign per quarter
 		self.per_quarter = per_quarter
 
-		# set of courses have already either been previously taken or already assigned 
-		self.taken = set(taken)
-
-		# courses that need to be assigned for valid solution (intro and foundation)
-		self.required = required
-
-		# need some number of electives to graduate
-		self.electives = electives
-
-		# reference to parent
+		# parent node
 		self.parent = parent
 
-
-
+	'''adds course to current term, updates term/cost, returns new node'''
 	def addChild(self, course):
-		'''returns node having assigned course to current term; increments term if full'''
+		# copy courses taken so far and overall
+		new_taken = copy(self.taken)
+		new_taken_overall = copy(self.taken_overall)
 
-		# copy path, add course to current term of new path
-		new_path = deepcopy(self.path)
-		new_path[self.current_term].append(course)
-
-		# assign course to current term
-		self.current_term.assigned.append(course)
-
-		# copy full set of taken courses and add course to it
-		new_taken = set(deepcopy(self.taken))
-		new_taken.add(course)
-
-		# copy term and cost, update if necessary
-		next_term = deepcopy(self.current_term)
-		new_cost = self.cost
-
-		# check if this term is full
-		if (len(next_term.assigned) >= self.per_quarter):
-			# check if we're out of terms
-			if (next_term.year == 2020):
-				if (next_term.name == "Fall"):
-					print("out of terms")
-					return None
-			# otherwise, get next term and update cost
-			next_term = self.current_term.next()
-			new_cost = self.cost + 1
-
-		return Node(new_path, self.cost, self.units_left - course.units, next_term,
-					self.per_quarter, new_taken, self.required, self.electives, self)
-
-	def successor(self):
-		''' returns all valid non-conflicting courses that can follow current node'''
-		potential = []
-		# if nothing is already assigned to this term, just check prerequisites
-		if not self.current_term.assigned:
-			potential = [course for course in self.current_term.offered if self.preqCheck(course)]
-		# otherwise check prereqs and days
+		# if assigned is full, this is a new quarter, start with new quarter lists, update number of terms
+		if (len(self.assigned) == self.per_quarter):
+			new_assigned = []
+			new_days = []
+			(new_quarter, new_year) = self.getNextQuarter()
+			new_num_quarters = self.num_quarters + 1
+			new_taken.update(self.assigned)
 		else:
-			potential = [course for course in self.current_term.offered if self.preqCheck(course) and self.dayCheck(course)]
+			new_assigned = self.assigned[:]
+			new_days = self.days[:]
+			new_quarter = self.quarter
+			new_year = self.year
+			new_num_quarters = self.num_quarters
 
-		if not potential: 
-			print("there are no successors")
 		
-		# filter courses that have already been taken
-		potential = [course for course in potential if course not in self.taken]
-		return potential
+		# add given course to node and set of taken classes
+		new_assigned.append(course.course_id)
+		
+		# add course to taken overall
+		new_taken_overall.add(course.course_id)
 
-	def preqCheck(self, course):
-		'''determines if course has all prerequisites met'''
-		for and_preqs in course.prereqs:
-			for or_preqs in and_preqs:
-				if or_preqs in self.taken:
-					# if one of the or's is satisfied, break out of inner loop, go back to outer
-					break
-				else:
-					# if not, can't assign course 
-					return False
-		return True
+		# add day if not online 
+		if (course.day != 0):
+			new_days.append(course.day)
 
-	def dayCheck(self, course):
-		'''checks if that day is open in current term'''
-		for set_course in self.current_term.assigned:
-			# if a course is already assigned to that day (which is not online)
-			if set_course.day == course.day and (set_course.day != 0):
-				return False
-		return True
 
-	def isTerminal(self):
-		# check if units requirement is met
-		if (self.units_left > 0):
-			return False
+		return Node(new_num_quarters, new_assigned,  new_taken, new_taken_overall, new_days, 
+					self.units_left - course.units, new_quarter, new_year, self.per_quarter, self)
 
-		# check if all foundation and concentration courses are assigned
-		for req in self.required:
-			if req not in self.taken:
-				return False
 
-		# electives
-		elec_count = 0
-		for elec in self.electives:
-			if elec in self.taken:
-				elec_count += 1
-
-		if elec_count < 8:
-			return False
-
-		# otherwise, this is a valid schedule
-		print(self.units_left)
-		return True
-
+	''' generates solution by working up to root of tree '''
 	def solution(self):
-		return self.path
+		# store path in dictionary
+		path = {}
 
-class Path:
-	def __init__(self, taken, concentration, delivery, units):
-		#TODO: Only input should be student ID, link these values to database
+		# copy terminal node to consume up to root
+		current = self
+		
+		while (current.parent != None):
+			current_term = current.quarter + str(current.year)
+			# keep going up tree until a novel term is reached
+			if current_term in path:
+				current = current.parent
+				continue
+			else:
+				# if novel term, add assigned courses
+				path[current_term] = current.assigned
 
-		# set of classes already taken
-		self.taken = set(taken)
+			current = current.parent
 
-		# major concentration
-		#TODO: link major concentration to database
-		self.concentration = concentration
+		return path
+		
 
-		# TODO: update courses to account for delivery type
-		# delivery type: online-only -> -1 , in person only -> 0, hybrid -> 1
-		self.delivery = 1
-
-		# units already earned by student
-		self.units = units
+	''' checks if course has prerequisites already met '''
+	def preqCheck(self, course):
+		# check if empty		
+		if len(course.prereqs) == 1:
+			if not course.prereqs[0]:
+				return True
 
 
+		for and_clause in course.prereqs:
+			# boolean to see if at least 1 'or' is met (resets every and-clause) 
+			someMet = False
+			for or_clause in and_clause:
+				if or_clause.course_id in self.taken:
+					# don't need to check rest of or_clause
+					someMet = True
+					break
+			if (someMet == False):
+				return False
+		return True
 
-	def f(node):
-		# heuristic for ordering priority queue: actual cost of this schedule (how many terms) 
-		# + estimated heuristic (how many terms would it take without constraints)
-		# + how many prereqs it requires (so that less constrained classes are explored first)
-		# ideally would also sort by how constrained a course is 
-		# i.e., assign courses that are most often prereqs for other courses first 
-		# can do this sorting on the database itself after scraping
-		return node.cost + (node.units_left - node.per_quarter * 4) 
+	''' helper function to get next quarter '''
+	def getNextQuarter(self):
+		# dictionary to switch with
+		nextQuarters = {"Fall": ("Winter", self.year+1) , "Winter": ("Spring", self.year), 
+						"Spring": ("Summer", self.year), "Summer": ("Fall", self.year)}
 
-	def aStar(root):
-		''' a* search adapted from Norvig and Russels AI: A Modern Approach '''
-		# priority queue sorted by f for checking paths
-		frontier = Priority(Path.f)
-		frontier.push(root) 
+		return nextQuarters[self.quarter]
 
-		# set for containing paths that have already been considered
-		explored = set()
 
-		count = 0 
-		space = 0
 
-		# while queue is not empty
-		while frontier:
-			current = frontier.pop() # get lowest cost node
-			count += 1
-			# if this current schedule is complete, this is shortest path
-			if current.isTerminal():
-				print("Solved")
-				print(count )
-				return current.path
-			# else, consider this set of classes as already having been explored
-			explored.add(tuple(current.taken))
 
-			# for all available actions
-			for course in current.successor():
-				child = current.addChild(course)
-				# if this course assignment hasn't been seen before, push it onto the queue
-				if (child not in frontier) and (tuple(child.taken) not in explored):
-					frontier.push(child)
-				# otherwise, if it is already on the queue, take lower costing path
-				elif (child in frontier):
-					check = frontier.get(child)
-					if (f(child) < f(check)):
-						frontier.remove(check)
-						frontier.push(child)
-			# maintain max frontier size
-			if len(frontier) > space:
-				space = len(frontier)
 
-		print("failed at count of ", count)
-		return current.path
