@@ -15,14 +15,20 @@ Base.query = db_session.query_property()
 class User(Base):
     __tablename__ = 'Users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True)
-    email = db.Column(db.String(120), unique=True)
-    password = db.Column(db.String(30))
+    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+    perms = db.Column(db.Integer, nullable=False)
+    active = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, name=None, password=None):
+    def __init__(self, name, email, password, perms=1, active=1):
         self.name = name
+        self.email = email
         self.password = password
-
+        self.perms = perms
+        self.active = active
+		
+		
 # Create tables.
 Base.metadata.create_all(bind=engine)
