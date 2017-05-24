@@ -10,7 +10,11 @@ from forms import *
 import os
 import sqlite3
 from flask import g
+<<<<<<< HEAD
 
+=======
+from scraper import scraper
+>>>>>>> 9bf3dbe4a0efc0300c2d7ecaa3ba73d843f9ce4f
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -99,6 +103,28 @@ def admin():
         user=user,
         students=students
     )
+
+@app.route('/updateCourses')
+def update_courses(course = None):
+    s = scraper()
+    scraped = s.results
+    course_list = [len(scraped)]
+    for i, scraped_course in enumerate(scraped):
+        course_list[i] = Course(
+            id=scraped_course['id'],
+            name=scraped_course['subject'],
+            prereq=scraped_course['delivery_type'],
+            credits=scraped_course['credits'],
+            day_of_week=scraped_course['day_of_week'],
+            quarter_offered=scraped_course['typically_offered'] ,
+            delivery_method=scraped_course['delivery_type'],
+        )
+        db.session.add(course_list[i])
+
+    db.session.commit()
+    render_template([print(c) for c in course_list])
+
+
 
 @app.route('/about')
 def about():
