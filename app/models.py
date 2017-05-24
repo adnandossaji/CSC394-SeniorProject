@@ -1,8 +1,10 @@
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
-from app import db
+
+db = SQLAlchemy()
 
 engine = create_engine('sqlite:///database.db', echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -11,7 +13,6 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-# Set your classes here.
 class User(Base):
     __tablename__ = 'Users'
 
@@ -39,7 +40,7 @@ class User(Base):
         self.concentration = concentration
         self.taken = taken		
 
-class Role:
+class Role(Base):
     __tablename__ = 'Role'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
@@ -48,8 +49,7 @@ class Role:
     def __init__(self, name):
         self.name = name
 
-class CourseType:
-    '''course objects (domains)'''
+class CourseType(Base):
     __tablename__ = 'CourseType'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
@@ -58,8 +58,7 @@ class CourseType:
     def __init__(self, name):
         self.name = name
 
-class Course:
-    '''course objects (domains)'''
+class Course(Base):
     __tablename__ = 'Course'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
@@ -105,8 +104,8 @@ class Course:
         return self.course_id == other.course_id
 
 
-class Term: 
-    ''' term object, TODO: link to database '''
+class Term(Base): 
+    __tablename__ = 'Term'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)

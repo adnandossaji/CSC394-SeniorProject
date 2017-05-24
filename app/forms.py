@@ -1,7 +1,7 @@
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length
-from models import User, Role, CourseType, Course, Term
+from app.models import User, Role, CourseType, Course, Term
 
 # Set your classes here.
 
