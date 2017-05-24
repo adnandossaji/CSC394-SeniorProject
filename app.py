@@ -1,22 +1,23 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import logging
 from logging import Formatter, FileHandler
 from forms import *
 import os
 import sqlite3
 from flask import g
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
-
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 DATABASE = 'database.db'
 
 def get_db():
@@ -41,11 +42,10 @@ def login_required(test):
             flash('You need to login first.')
             return redirect(url_for('login'))
     return wrap
+
 #----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
-
-
 @app.route('/')
 def home():
 	user = None
@@ -192,7 +192,6 @@ if not app.debug:
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
-
 # Default port:
 if __name__ == '__main__':
     app.run()
