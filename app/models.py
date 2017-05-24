@@ -26,7 +26,7 @@ class User(Base):
     delivery_type = db.Column(db.Integer, nullable=False)
     program = db.Column(db.String(120), nullable=False)
     concentration = db.Column(db.String(120), nullable=False)
-    taken = db.Column(db.String(120), unique=True, nullable=False)
+    taken = db.Column(db.String(120), nullable=False)
 
 
     def __init__(self, name, email, password, role, active, delivery_type, program, concentration, taken):

@@ -14,45 +14,37 @@
       padding: 15px;
       margin: 0 auto;
     }
-    .form-signin .form-signin-heading,
-    .form-signin .checkbox {
-      margin-bottom: 10px;
-    }
-    .form-signin .checkbox {
-      font-weight: normal;
-    }
-    .form-signin .form-control {
-      position: relative;
-      height: auto;
-      -webkit-box-sizing: border-box;
-         -moz-box-sizing: border-box;
-              box-sizing: border-box;
-      padding: 10px;
-      font-size: 16px;
-    }
-    .form-signin .form-control:focus {
-      z-index: 2;
-    }
-    .form-signin input[type="email"] {
-      margin-bottom: -1px;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    .form-signin input[type="password"] {
-      margin-bottom: 10px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
 
   </style>
 
   <form method="post" class="form-signin">
     <h3 class="form-heading">Register <a href="{{ url_for('home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
-    {{ form.name(class_ = 'form-control first-input', placeholder = form.name.label.text, required = true, autofocus = true) }}
-    {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
-    {{ form.password(class_ = 'form-control', placeholder = form.password.label.text, required = true) }}
-    {{ form.confirm(class_ = 'form-control last-input', placeholder = form.confirm.label.text, required = true) }}
-    <p class="pull-right"><a href="{{ url_for('login') }}">Login</a></p>
-    {{ form.submit(class_ = 'btn btn-primary btn-lg btn-block') }}
+    <div class="form-group">
+      {{ form.name(class_ = 'form-control first-input', placeholder = form.name.label.text, required = true, autofocus = true) }}
+    </div>
+    <div class="form-group">
+      {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.password(class_ = 'form-control', placeholder = form.password.label.text, required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.confirm(class_ = 'form-control', placeholder = form.confirm.label.text, required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.program(class_ = 'form-control', placeholder = "Program", required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.concentration(class_ = 'form-control', placeholder = "Concentration", required = true) }}
+    </div>
+
+    <div class="form-group">
+      <p class="pull-right"><a href="{{ url_for('login') }}">Login</a></p>
+      {{ form.submit(class_ = 'btn btn-primary btn-lg btn-block') }}
+    </div>
   </form>
 {% endblock %}

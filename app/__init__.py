@@ -155,7 +155,7 @@ def register():
                 form=form
             )
         else:
-            user = User(form.name.data, form.email.data, form.password.data, 3, False, 1, "Information Systems", "Concentration", "{}")
+            user = User(form.name.data, form.email.data, form.password.data, 3, False, 1, form.program.data, form.concentration.data, "{}")
             db.session.add(user)
             db.session.commit()
 
