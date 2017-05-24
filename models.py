@@ -28,7 +28,30 @@ class User(Base):
         self.password = password
         self.perms = perms
         self.active = active
-		
-		
+
+class Course(Base):
+    __tablename__ = 'Courses'
+
+    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    prereq = db.Column(db.String(100), unique=True, nullable=False)
+    credits = db.Column(db.Integer, nullable=False)
+    day_of_week = db.Column(db.String(100))
+    syllabus = db.Column(db.String(100))
+    quarter_offered = db.Column(db.String(100), nullable=False)
+    delivery_method = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, id, name, prereq, credits, description, syllabus, quarter_offered, delivery_method):
+        self.id = id
+        self.name = name
+        self.prereq = prereq
+        self.credits = credits
+        self.description = description
+        self.syllabus = syllabus
+        self.quarter_offered = quarter_offered
+        self.delivery_method = delivery_method
+
+
+
 # Create tables.
 Base.metadata.create_all(bind=engine)

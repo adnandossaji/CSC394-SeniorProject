@@ -11,6 +11,7 @@ import os
 import sqlite3
 from flask import g
 from scraper import scraper
+from models import *
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -105,22 +106,26 @@ def admin():
 def update_courses(course = None):
     s = scraper()
     scraped = s.results
-    course_list = [len(scraped)]
+    course_list = [course] * len(scraped)
+
     for i, scraped_course in enumerate(scraped):
-        course_list[i] = Course(
-            id=scraped_course['id'],
-            name=scraped_course['subject'],
-            prereq=scraped_course['delivery_type'],
-            credits=scraped_course['credits'],
-            day_of_week=scraped_course['day_of_week'],
-            quarter_offered=scraped_course['typically_offered'] ,
-            delivery_method=scraped_course['delivery_type'],
+        print(scraped_course)
+        course_list.insert(
+            i,
+            Course(
+                id=scraped_course['course_number'],
+                name=scraped_course['subject'],
+                prereq=scraped_course['delivery_type'],
+                credits=scraped_course['credits'],
+                day_of_week=scraped_course['day_of_week'],
+                quarter_offered=scraped_course['typically_offered'] ,
+                delivery_method=scraped_course['delivery_type']
+            )
         )
-        db.session.add(course_list[i])
+    [db.session.add(i) for i in course_list]
 
     db.session.commit()
-    render_template([print(c) for c in course_list])
-
+    return '200'
 
 
 @app.route('/about')

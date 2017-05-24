@@ -14,8 +14,6 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from collections import deque
 import time
-import json
-import csv
 from urllib.parse import urljoin, urlencode, quote_plus
 
 
@@ -50,8 +48,10 @@ class scraper(object):
     ## constructor
     def __init__(self):
         self.entries, self.page, self.soup = self.init_catalog_scraper()
-        self.results = self.separate_course_info(self.entries, self.page, self.soup)
-        self.reqs = self.scrape_reqs()
+        self.results = self.separate_course_info()
+        # self.results = self.separate_course_info(self.entries, self.page, self.soup)
+
+        #self.reqs = self.scrape_reqs()
 
     def init_catalog_scraper(self):
         '''
@@ -85,6 +85,7 @@ class scraper(object):
             # content = course information inside of entry
 
             # separates XML by entry
+
             entries = soup.findAll('entry')
             # removes everything outside of content tag inside of entries
             content = [s.find('content') for s in entries]
@@ -239,6 +240,7 @@ class scraper(object):
 
                             i = z
                             # TODO: remove prints
+                            print(reqs_and_courses)
                             if reqs_and_courses.get('areas'):
                                 reqs_and_courses.get('areas').append(packed)
                             else:
@@ -276,16 +278,21 @@ class scraper(object):
                             # print(packed)  # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
                             nested_p.get('areas').append(packed)
 
+                            ## checking where this goes wrong
+                            # if nested_p.get('areas'):
+                            #     nested_p.get('areas').append(packed)
+                            # else:
+                            #     nested_p.update({'areas': []})
 
                         [print(n, v) for n, v in nested_p.items()]
-                        print(reqs_and_courses)
+                        print("before nested_p: " + str(reqs_and_courses))
                         reqs_and_courses.update(nested_p)
                         print()
                         print()
 
         [print(n, v) for n, v in reqs_and_courses.items()]                # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
 
-        print(AREA_LIST) # TODO: REMOVE AREA_LIST PRINT CHECK
+        print("printing area list: " + str(AREA_LIST)) # TODO: REMOVE AREA_LIST PRINT CHECK
         # majors = [pack_course(area, AREA_NAMES[i]) for i, area in enumerate(AREA_LIST)]
         # for major in majors:
         #     [print(prop, key) for prop, key in major.items()]
@@ -303,19 +310,17 @@ class scraper(object):
         # update info for
 
 
-    @staticmethod
-    def separate_course_info(self, entries, page):
+
+    def separate_course_info(self):
         ''' separate_course_info
         separates the parsed xml into courses, packs them into a data dictionary, and adds them to a list
         :param self:
         :param entries:
         :param page:
-        :param parser:
         :return:
         '''
-        # print(entries)
-        # print(page)
-        # print(parser)
+        print(self.entries)
+        print(self.page)
 
         # TODO: format course's prerequisites
         # prerequisite list generator
@@ -406,13 +411,15 @@ class scraper(object):
         online_only           = lambda entry: entry.find('properties').find('IsOnlineOnly').contents[0]
         both                  = lambda entry: entry.find('properties').find('IsInClassAndOnline').contents[0]
         is_offered            = lambda entry: entry.find('properties').find('IsNotOffered').contents[0]
-        get_credits           = lambda entry: entry.find('properties').find('cred')
+        get_credits           = lambda entry: entry.find('properties').find('unitsRepeatLimit').contents[0]
 
         #
         fmt_day               = lambda entry: entry.find('properties').find('Effdt').contents[0].split('T')[0]
         get_weekday           = lambda entry: time.strptime(fmt_day(entry), "%Y-%M-%d")
         get_day               = lambda entry: time.strftime("%a", get_weekday(entry)) #
 
+
+        # print("check entries " + str(self.entries[0]))
 
         ## pack_course
         #  Lambda fxn that packs course information into data dictionary
@@ -430,12 +437,13 @@ class scraper(object):
             'prerequisites'     : get_prereqs(get_long_descr(entry)),
             'delivery_type'     : pop_delivery_type(entry),
             'day_of_week'       : str(get_day(entry)),
-            'credits'           : float(0.0)
+            'credits'           : get_credits(entry)
         }
 
-        courses = [pack_course(entry) for entry in entries if is_csc(entry)]
+        courses = [pack_course(entry) for entry in self.entries if is_csc(entry)]
 
-        # TODO: REMOVE VERIFICATION PRINTS
+        # print("courses check: " + str(courses))
+
         [print(course) for course in courses if course['typically_offered'][0] != 'Not Offered']
         print(len(courses))
 
