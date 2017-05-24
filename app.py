@@ -1,15 +1,11 @@
-#----------------------------------------------------------------------------#
-# Imports
-#----------------------------------------------------------------------------#
-
+from app import app
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask.ext.sqlalchemy import SQLAlchemy
-import logging
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from logging import Formatter, FileHandler
-from forms import *
-import os
-import sqlite3
+from app.forms import *
 from flask import g
+<<<<<<< HEAD
 from scraper import scraper
 from models import *
 #----------------------------------------------------------------------------#
@@ -126,101 +122,16 @@ def update_courses(course = None):
 
     db.session.commit()
     return '200'
+=======
+>>>>>>> 9034afee3c7d423d3c6e756fcc340078f2bd4d72
 
-
-@app.route('/about')
-def about():
-    user = None
-    if 'email' in session:
-        user = User.query.filter_by(email = session['email']).first()
-    else: render_template('errors/404.html')
-
-    return render_template(
-        'pages/placeholder.about.html',
-        user=user,
-    )
-
-
-@app.route('/login/', methods=['GET', 'POST'])
-def login():
-    form = LoginForm(request.form)
-    if request.method == 'POST':
-        if form.validate() == False:
-          return render_template('forms/login.html', form=form)
-        else:
-          session['email'] = form.email.data
-          user = User.query.filter_by(email = session['email']).first()
-
-          return redirect(url_for('home'))
-    elif request.method == 'GET':
-        return render_template('forms/login.html', form=form)
-
-@app.route('/logout')
-def logout():
-    form = LoginForm(request.form)
-    session.pop('email', None)
-    return redirect(url_for('home'))
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm(request.form)
-
-    if request.method == 'POST':
-        
-        if form.validate() == False:
-            return render_template(
-                'forms/register.html',
-                form=form
-            )
-        else:
-            user = User(form.name.data, form.email.data, form.password.data)
-            db.session.add(user)
-            db.session.commit()
-
-            session['email'] = user.email
-
-        return render_template('pages/placeholder.home.html', user=user)
-
-    elif request.method == 'GET':
-
-        return render_template(
-            'forms/register.html',
-            form=form
-        )
-
-
-@app.route('/forgot')
-def forgot():
-    form = ForgotForm(request.form)
-    return render_template('forms/forgot.html', form=form)
-
-# Error handlers.
-
-
-@app.errorhandler(500)
-def internal_error(error):
-    #db_session.rollback()
-    return render_template('errors/500.html'), 500
-
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('errors/404.html'), 404
-
-if not app.debug:
-    file_handler = FileHandler('error.log')
-    file_handler.setFormatter(
-        Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-    )
-    app.logger.setLevel(logging.INFO)
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    app.logger.info('errors')
+import os
+import sqlite3
+import logging
 
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
-
 # Default port:
 if __name__ == '__main__':
     app.run()

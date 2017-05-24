@@ -1,26 +1,17 @@
 from flask_wtf import Form
-from wtforms import TextField, PasswordField, SubmitField
+from wtforms import TextField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Length
-from models import *
-
-# Set your classes here.
-
+from app.models import User, Role, CourseType, Course, Term
 
 class RegisterForm(Form):
-    name = TextField(
-        'Username', validators=[DataRequired(), Length(min=6, max=25)]
-    )
-    email = TextField(
-        'Email', validators=[DataRequired(), Length(min=6, max=40)]
-    )
-    password = PasswordField(
-        'Password', validators=[DataRequired(), Length(min=6, max=40)]
-    )
-    confirm = PasswordField(
-        'Repeat Password',
-        [DataRequired(),
-        EqualTo('password', message='Passwords must match')]
-    )
+    name = TextField('Username', validators=[DataRequired(), Length(min=6, max=25)]    )
+    email = TextField('Email', validators=[DataRequired(), Length(min=6, max=40)]    )
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)]    )
+    confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+
+    program = SelectField("Program", validators=[], choices=[("IS", "Information Systems"), ("CS", "Computer Science")])
+    concentration = SelectField("Program", validators=[], choices=[("A", "A"), ("B", "B"), ("C", "C")])
+
     submit = SubmitField("Create account")
 
     def __init__(self, *args, **kwargs):
