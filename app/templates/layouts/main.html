@@ -54,7 +54,9 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li {% if request.endpoint == 'home' %} class="active" {% endif %}><a href="{{ url_for('home') }}">Home</a></li>
-            <li {% if request.endpoint == 'about' %} class="active" {% endif %}><a href="{{ url_for('about') }}">About</a></li>
+            {% if user.role == 1 %}
+            <li {% if request.endpoint == 'admin' %} class="active" {% endif %}><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% endif %}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -71,7 +73,7 @@
           </ul>
           {% if 'email' in session %}
           <ul class="nav navbar-nav pull-right">
-            <li>{{ user.name }}</li>
+            <li><a href="#">{{ user.name }}</a></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
           </ul>
           {% else %}
