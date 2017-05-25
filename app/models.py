@@ -62,26 +62,23 @@ class Course(Base):
     __tablename__ = 'Course'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    course_id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    prereqs = db.Column(db.String(120), nullable=False)
-    units = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    day = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    prereq = db.Column(db.String(100), unique=True, nullable=False)
+    credits = db.Column(db.Integer, nullable=False)
+    day_of_week = db.Column(db.String(100))
+    syllabus = db.Column(db.String(100))
+    quarter_offered = db.Column(db.String(100), nullable=False)
+    delivery_method = db.Column(db.String(100), nullable=False)
 
-
-    def __init__(self, course_id, prereqs, units, day):
-        # TODO: link to database
-        
-        # course id (are these unique?)
-        self.course_id = course_id
-
-        # each course has an associated list of prereqs (a list containing other course objects)
-        self.prereqs = prereqs
-    
-        # int: number of credits the course counts for
-        self.units = units
-        
-        # day that class is held, integer: 1 = Monday, ..., 4 = Thursday, 0 = online; 
-        self.day = day
+  def __init__(self, id, name, prereq, credits, description, syllabus, quarter_offered, delivery_method):
+        self.id = id
+        self.name = name
+        self.prereq = prereq
+        self.credits = credits
+        self.description = description
+        self.syllabus = syllabus
+        self.quarter_offered = quarter_offered
+        self.delivery_method = delivery_method
 
     # when representing coures, give just course_id as integer
     def __repr__(self):
