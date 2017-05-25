@@ -17,5 +17,5 @@ paramiko==1.12.2
 pycrypto==2.6.1
 python-editor==1.0.3
 SQLAlchemy==0.9.3
-Werkzeug==0.9.4
+Werkzeug==0.12.2
 WTForms==1.0.5
