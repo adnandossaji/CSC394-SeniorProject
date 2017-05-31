@@ -70,7 +70,7 @@ class Course(Base):
     quarter_offered = db.Column(db.String(100), nullable=False)
     delivery_method = db.Column(db.String(100), nullable=False)
 
-  def __init__(self, id, name, prereq, credits, description, syllabus, quarter_offered, delivery_method):
+    def __init__(self, id, name, prereq, credits, description, syllabus, quarter_offered, delivery_method):
         self.id = id
         self.name = name
         self.prereq = prereq

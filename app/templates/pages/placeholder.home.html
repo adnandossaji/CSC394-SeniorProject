@@ -86,18 +86,25 @@
 				<!-- Start Path Body -->
 				<div class="panel-body overflow">
 					<!-- Start Path Loop -->
-					{% for term in path %}
-					<h4>{{ term }}</h4>
-					<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
-						<ul>
-							<!-- Start Term Loop -->
-							{% for course in path[term] %}
-							<li>{{ course }}</li>
-							{% endfor %}
-							<!-- End Term Loop -->
-						</ul>
-					</div>
-					{% endfor %}
+					{% if path %}
+						{% for term in path %}
+						<h4>{{ term }}</h4>
+						<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
+							<ul>
+								<!-- Start Term Loop -->
+								{% for course in path[term] %}
+								<li>{{ course }}</li>
+								{% endfor %}
+								<!-- End Term Loop -->
+							</ul>
+						</div>
+						{% endfor %}
+					{% else %}
+						<h4>{{ term }}</h4>
+						<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
+						  <p>No path</p>
+						</div>
+					{% endif %}
 					<!-- End Path Loop -->
 					
 				</div>
@@ -106,7 +113,7 @@
 				<!-- Start Path Footer -->
 				<div class="panel-footer">
 					<div class="btn-group btn-group-justified">
-						<a href="#" class="btn btn-primary">New Path</a>
+						<a href="/getPath" class="btn btn-primary">New Path</a>
 						<a href="#" class="btn btn-danger">Save Path</a>
 					</div>
 				</div>
