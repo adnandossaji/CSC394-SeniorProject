@@ -62,9 +62,6 @@ class Course(Base):
     __tablename__ = 'Course'
 
     id = db.Column(db.String(10), primary_key=True, unique=True, nullable=False)
-
-    # TODO: name should now be Subject, changed so that it is not unique
-
     prereq = db.Column(db.String(400), unique=False, nullable=False)
     credits = db.Column(db.Numeric(), nullable=False)
     day_of_week = db.Column(db.String(100))
