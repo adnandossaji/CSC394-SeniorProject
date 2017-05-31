@@ -61,27 +61,27 @@ class CourseType(Base):
 class Course(Base):
     __tablename__ = 'Course'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    course_id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    prereqs = db.Column(db.String(120), nullable=False)
-    units = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    day = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String(10), primary_key=True, unique=True, nullable=False)
 
+    # TODO: name should now be Subject, changed so that it is not unique
 
-    def __init__(self, course_id, prereqs, units, day):
-        # TODO: link to database
-        
-        # course id (are these unique?)
-        self.course_id = course_id
+    prereq = db.Column(db.String(400), unique=False, nullable=False)
+    credits = db.Column(db.Numeric(), nullable=False)
+    day_of_week = db.Column(db.String(100))
+    # syllabus = db.Column(db.String(100))
+    descr           = db.Column(db.String(700))
+    quarter_offered = db.Column(db.String(100), nullable=False)
+    delivery_method = db.Column(db.Integer, nullable=False)
 
-        # each course has an associated list of prereqs (a list containing other course objects)
-        self.prereqs = prereqs
-    
-        # int: number of credits the course counts for
-        self.units = units
-        
-        # day that class is held, integer: 1 = Monday, ..., 4 = Thursday, 0 = online; 
-        self.day = day
+    def __init__(self, id, prereq, day_of_week, credits, description, quarter_offered, delivery_method):
+        self.id = id
+        self.prereq = prereq
+        self.credits = credits
+        self.descr = description
+        # self.syllabus = syllabus
+        self.quarter_offered = quarter_offered
+        self.delivery_method = delivery_method
+        self.day_of_week     = day_of_week
 
     # when representing coures, give just course_id as integer
     def __repr__(self):
@@ -101,7 +101,7 @@ class Course(Base):
         return self.course_id
 
     def __eq__(self, other):
-        return self.course_id == other.course_id
+        return self.id == other.id
 
 
 class Term(Base): 

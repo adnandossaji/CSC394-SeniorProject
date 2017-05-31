@@ -103,25 +103,28 @@ def admin():
         students=students
     )
 
-@app.route('/updateCourses')
+@app.route('/updateCourses', methods=['GET', 'POST'])
 def update_courses(course = None):
     s = scraper()
     scraped = s.results
-    course_list = [len(scraped)]
+    print("init scraped" + str(scraped))
+    course_list = [course] * len(scraped)
     for i, scraped_course in enumerate(scraped):
+        assert(isinstance(scraped_course['subject'], str))
+        print(scraped_course['subject'])
         course_list[i] = Course(
-            id=scraped_course['id'],
-            name=scraped_course['subject'],
-            prereq=scraped_course['delivery_type'],
+            id=str(scraped_course['subject'] +  ' ' + str(scraped_course['course_number'])),
+            prereq=scraped_course['prereq'],
             credits=scraped_course['credits'],
             day_of_week=scraped_course['day_of_week'],
-            quarter_offered=scraped_course['typically_offered'] ,
-            delivery_method=scraped_course['delivery_type'],
+            quarter_offered=scraped_course['typically_offered'],
+            delivery_method=scraped_course['delivery_method'],
+            description=scraped_course['descr']
         )
         db.session.add(course_list[i])
-
     db.session.commit()
-    render_template([print(c) for c in course_list])
+    # render_template([print(c) for c in course_list])'
+    return '200'
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
