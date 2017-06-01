@@ -175,7 +175,7 @@ def getPath():
     # dummy root node for path generation (2 quarters per quarter, empty assigned and taken, starting Fall 2017)
     root = Node(0, [], taken, taken, [], units, "Fall", 2017, 2, None)
 
-    path = Path.aStar(root, offered, electives, num_electives)
+    path = Search.aStar(root, offered, intro, concentration, 4)
 
     return render_template(
         'pages/placeholder.home.html', 
