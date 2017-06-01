@@ -7,9 +7,9 @@ from app.forms import *
 from flask import g
 from app.scraper import scraper
 
-from node import *
-from search import *
-from course import *
+from app.node import *
+from app.search import *
+from app.course import *
 
 import os
 import sqlite3

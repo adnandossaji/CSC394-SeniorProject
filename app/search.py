@@ -1,6 +1,6 @@
-from node import Node
-from priority import Priority
-from course import *
+from app.node import Node
+from app.priority import Priority
+from app.course import *
 
 # this is the only place we need to connect to the database, and only to give parameters to a root node
 
