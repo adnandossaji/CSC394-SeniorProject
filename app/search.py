@@ -1,6 +1,6 @@
-from node import Node
-from priority import Priority
-from course import *
+from app.node import Node
+from app.priority import Priority
+from app.dummyCourse import *
 
 # this is the only place we need to connect to the database, and only to give parameters to a root node
 
@@ -55,7 +55,7 @@ class Search:
                      n.preqCheck(course) and course.day not in n.days]
 
         # add non-course, i.e., not taking a course
-        available.append(Course(0, [[]], 0, 0))
+        available.append(DummyCourse(0, [[]], 0, 0))
 
         return available
 

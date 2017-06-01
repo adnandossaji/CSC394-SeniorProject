@@ -1,5 +1,5 @@
 import heapq
-from node import *
+from app.node import *
 from collections import deque
 
 class Priority:
