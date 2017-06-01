@@ -1,4 +1,4 @@
-class Course:
+class DummyCourse:
     '''course objects'''
     def __init__(self, course_id, prereqs, units, day):
         # course id
