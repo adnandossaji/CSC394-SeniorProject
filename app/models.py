@@ -23,21 +23,28 @@ class User(Base):
     role = db.Column(db.Integer, nullable=False) # FK
     active = db.Column(db.Integer, nullable=False)
 
-    delivery_type = db.Column(db.Integer, nullable=False)
     program = db.Column(db.String(120), nullable=False)
     concentration = db.Column(db.String(120), nullable=False)
+    start_term = db.Column(db.String(10), nullable=False)
+    start_year = db.Column(db.Integer, nullable=False)
+    delivery_type = db.Column(db.Integer, nullable=False)
+    classes_per_term = db.Column(db.Integer, nullable=False)
+    
     taken = db.Column(db.String(120), nullable=False)
+    
 
-
-    def __init__(self, name, email, password, role, active, delivery_type, program, concentration, taken):
+    def __init__(self, name, email, password, role, active, program, concentration, start_term, start_year, delivery_type, classes_per_term, taken):
         self.name = name
         self.email = email
         self.password = password
         self.role = role
         self.active = active
-        self.delivery_type = delivery_type
         self.program = program
         self.concentration = concentration
+        self.start_term = start_term
+        self.start_year = start_year
+        self.delivery_type = delivery_type
+        self.classes_per_term = classes_per_term
         self.taken = taken		
 
 class Role(Base):
@@ -69,8 +76,8 @@ class Course(Base):
     syllabus = db.Column(db.String(100))
     quarter_offered = db.Column(db.String(100), nullable=False)
     delivery_method = db.Column(db.String(100), nullable=False)
-
-  def __init__(self, id, name, prereq, credits, description, syllabus, quarter_offered, delivery_method):
+    
+    def __init__(self, id, name, prereq, credits, description, syllabus, quarter_offered, delivery_method):
         self.id = id
         self.name = name
         self.prereq = prereq

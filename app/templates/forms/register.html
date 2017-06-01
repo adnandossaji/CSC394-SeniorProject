@@ -41,6 +41,22 @@
     <div class="form-group">
       {{ form.concentration(class_ = 'form-control', placeholder = "Concentration", required = true) }}
     </div>
+    
+    <div class="form-group">
+      {{ form.start_term(class_ = 'form-control', placeholder = "Starting Term", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.start_year(class_ = 'form-control', placeholder = "Starting Year", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.delivery_type(class_ = 'form-control', placeholder = "Delivery Preference", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.classes_per_term(class_ = 'form-control', placeholder = "Classes per Term", required = true) }}
+    </div>
 
     <div class="form-group">
       <p class="pull-right"><a href="{{ url_for('login') }}">Login</a></p>

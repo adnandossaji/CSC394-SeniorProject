@@ -14,3 +14,5 @@ SECRET_KEY = 'my precious'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'database.db')
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+FLASK_APP = "app.py"
