@@ -126,21 +126,23 @@ def getPath():
 def update_courses(course = None):
     s = scraper()
     scraped = s.results
-    course_list = [len(scraped)]
     for i, scraped_course in enumerate(scraped):
-        course_list[i] = Course(
-            id=scraped_course['id'],
-            name=scraped_course['subject'],
-            prereq=scraped_course['delivery_type'],
-            credits=scraped_course['credits'],
-            day_of_week=scraped_course['day_of_week'],
-            quarter_offered=scraped_course['typically_offered'] ,
-            delivery_method=scraped_course['delivery_type'],
-        )
-        db.session.add(course_list[i])
 
-    db.session.commit()
-    render_template([print(c) for c in course_list])
+        course = Course(
+            subject=scraped_course['subject'],
+            course_number=scraped_course['course_number'],
+            prereq=scraped_course['prereq'],
+            day_of_week=scraped_course['day_of_week'],
+            credits=scraped_course['credits'],
+            description="",
+            quarter_offered=scraped_course['typically_offered'],
+            delivery_method=scraped_course['delivery_method']
+        )
+
+        db.session.add(course)
+        db.session.commit()
+
+    return redirect(url_for('home'))
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
