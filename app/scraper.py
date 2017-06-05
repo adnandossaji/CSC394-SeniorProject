@@ -214,10 +214,10 @@ class scraper(object):
                     # TODO: remove verification print
                     if i < len(req_phases) - 1:
                         reqs_and_courses = {'phase': req_phases[i]}
-                        print("checking req_phases: " + str(req_phases[i]))
-                        print("len of reqphases:" + str(len(req_phases)))
-                        print(i)
-                        print("clean courses[{}]:".format(i) + str(clean_courses[i]))
+                        # print("checking req_phases: " + str(req_phases[i]))
+                        # print("len of reqphases:" + str(len(req_phases)))
+                        # print(i)
+                        # print("clean courses[{}]:".format(i) + str(clean_courses[i]))
                         # print(type(req_phases[i]))
                         # print(req_phases[i-1])
 
@@ -226,7 +226,7 @@ class scraper(object):
                             # there are nested course lists
                             # create dictionary for the name of the phase and course
                             # replace element in list that has matching req_phase
-                            print("is dict: " + str(req_phases[i]))
+                            # print("is dict: " + str(req_phases[i]))
                             # z = i
                             for z, phase in enumerate(req_phases[i].get('areas')):
                                 z += i
@@ -235,59 +235,88 @@ class scraper(object):
                                 print(clean_courses[z])
                                 packed = pack_nested_reqs(phase, clean_courses[z])
                                 # clean_courses.pop(z)
+                                reqs_and_courses.update({packed})
                                 [print(p, v) for p, v in packed.items()]
 
                             i = z
                             # TODO: remove prints
                             print("END OF NESTED LIST")
+                            print(packed)
                             print(reqs_and_courses)  # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
                             print()
                         else:  # req_phases[i] is NOT a list/dict
                             # create dict, add reqphase; update the reqs and courses list
+                            options = ['CSC 500', 'CSC 695', 'CSC 698', 'CSC 697']
+
+                            research_thesis = {
+                                'phase' : 'Research and Thesis Options',
+                                'areas' : [
+                                    {
+                                        'phase'   : 'Research Colloquium',
+                                        'courses' : [options[0]]
+                                    },
+                                    {
+                                        'phase'   : 'Master\'s Research',
+                                        'courses' : [options[1]]
+                                    },
+                                    {
+                                        'phase'   : 'Master\'s Thesis',
+                                        'courses' : [options[2]]
+                                    },
+                                    {
+                                        'phase'   : 'Graduate Internship',
+                                        'courses' : [options[3]]
+                                    }
+                                ]
+                            }
                             reqs_and_courses.update({'courses': list(c)})
+                            reqs_and_courses.update(research_thesis)
                             print(reqs_and_courses)
-                            print()
-                            print()
 
 # adding research options
-                    else:
-                        # if outside of the bounds of req_phases
-                        options = ['CSC 500', 'CSC 695', 'CSC 698', 'CSC 697']
-                        research_thesis = req_phases[-1]
-                        print(research_thesis.get('Graduate Internship'))
-                        nested_p = {'phase' : str(req_phases[-1]), 'areas': []}
-                        print(nested_p)
-                        # nested_l = []
-                        # for j in range(0, len(req_phases.get('areas'))):
-                        #     opt = req_phases[i].get('areas')[j]
-                        #     # print(j)
-                        #     # print(opt)
-                        #     # print(req_phases[i].get('areas'))
-                        #     # print(len(req_phases[i].get('areas')))
-                        #     # print(req_phases[i].get('phase'))
-                        #     # pack research phase with course in option
-                        #     packed = {'phase': opt, 'courses': [options[j]]}
-                        #     # check packed
-                        #     print("Packed RTO : " + str(packed))
-                        #     # add packed to courses sublist
-                        #     # nested['area'].update(packed)
-                        #     # print(packed)  # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
-                        #     nested_p.get('areas').append(packed)
+#                     else:
+#                         # if outside of the bounds of req_phases
+#
 
 
-                        # [print(n, v) for n, v in nested_p.items()]
-                        print("TESTING WITHOUT ELSE BLOCK: " +  str(reqs_and_courses))
-                        # reqs_and_courses.update(nested_p)
-                        print()
-                        print()
+#                         print("before" + str(reqs_and_courses))
+#                         print("last in req_phases:" + str(req_phases[-1]))
+#                         reqs_and_courses.update(research_thesis)
+#                         # print(research_thesis.get('areas'))
+#                         nested_p = req_phases[-1]
+#                         print("after" + str(reqs_and_courses))
+#
+#                         # nested_l = []
+#                         # for j in range(0, len(req_phases.get('areas'))):
+#                         #     opt = req_phases[i].get('areas')[j]
+#                         #     # print(j)
+#                         #     # print(opt)
+#                         #     # print(req_phases[i].get('areas'))
+#                         #     # print(len(req_phases[i].get('areas')))
+#                         #     # print(req_phases[i].get('phase'))
+#                         #     # pack research phase with course in option
+#                         #     packed = {'phase': opt, 'courses': [options[j]]}
+#                         #     # check packed
+#                         #     print("Packed RTO : " + str(packed))
+#                         #     # add packed to courses sublist
+#                         #     # nested['area'].update(packed)
+#                         #     # print(packed)  # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
+#                         #     nested_p.get('areas').append(packed)
+#
+#
+#                         # [print(n, v) for n, v in nested_p.items()]
+#                         print("TESTING WITHOUT ELSE BLOCK: " +  str(reqs_and_courses))
+#                         # reqs_and_courses.update(nested_p)
+#                         # print()
+#                         # print()
 
-        [print(n, v) for n, v in reqs_and_courses.items()]                # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
+        # [print(n, v) for n, v in reqs_and_courses.items()]                # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
 
-        print(AREA_LIST) # TODO: REMOVE AREA_LIST PRINT CHECK
+        # print(AREA_LIST) # TODO: REMOVE AREA_LIST PRINT CHECK
         # majors = [pack_course(area, AREA_NAMES[i]) for i, area in enumerate(AREA_LIST)]
         # for major in majors:
         #     [print(prop, key) for prop, key in major.items()]
-
+        print("before return" + str(reqs_and_courses))
         return reqs_and_courses
         # return self.generate_reqs(AREA_LIST)
                 # generate_reqs()
@@ -302,31 +331,14 @@ class scraper(object):
 
     # fxn: generateBoolTreeArray
     # ex. prereqs string:
-    #  12. "None"
-    #  10. "For specific prerequisites, see syllabus or consult with course instructor. (variable credit)"
-    #   7. "PhD status or consent of instructor."
-    #   9. "Instructor consent required."
-
-    #  11. "Permission of instructor."
-    #  13. "Consent of the instructor. (variable credit)"
-    #  14. "CSC 695 taken twice and approval of report by student's research supervisor and faculty advisor. (0 credit hours)"
-    #  15. "Successful defense of a Master's Thesis.  (variable credit)"
-    #  16. "Research course supervised by an instructor. Independent Study Form required.  Variable credit.  Can be repeated for credit. (variable credit)"
-
-    #   6. "CSC 423 or consent of instructor."
-    #   5. "MAT 220 and any introductory programming course."
-    #   8. "MAT 220 and a programming course."
-
-    #   1. "CSC 301 and CSC 373 and CSC 374"
-    #   2. "CSC 301 or CSC 383 or CSC 393"
-    #   3. "(CSC 301 or CSC 383 or CSC 393) and CSC 373"
-    #   4. "(IT 240 or CSC 355)  and (CSC 212 or CSC 242 or CSC 243 or CSC 262 or CSC 224 or CSC 300 or CSC 309)"
-
-
     #   1. ["CSC", "301","and","CSC", "373", "and", "CSC". "374"]
     @staticmethod
-    def generate_bool_tree_array(prereqs):
-        # if there are no prereqs
+    def prereq_edge_cases(prereqs):
+        '''
+        12. "None"
+        :param prereqs:
+        :return:
+        '''
         if not prereqs:
             return str([])
 
@@ -335,10 +347,7 @@ class scraper(object):
             if prereqs == "None":
                 return str([])
             # could be one course
-            else:
-                # TODO: CHANGE
-                print("TODO")
-                return["TODO"]
+
         else:
             # case 13
             if prereqs[0:6] == 'Consent':
@@ -365,228 +374,9 @@ class scraper(object):
             elif prereqs[0:11] == "For specific":
                 # "CRS LNK" == Course Link
                 return ["CRS LNK"]
+        ## string parsing!!!
+        return prereqs
 
-                ## string parsing!!!
-        return scraper.create_bools(prereqs)
-
-    @staticmethod
-    def add_right(index_in_tree, tree, token_str, prev):
-        tree[index_in_tree + 1] = token_str
-        back, front = prev.pop(), prev.pop()
-        index_in_tree += 1
-        print((2 * (index_in_tree + 1)))
-        print((2 * index_in_tree + 2))
-        tree[2 * index_in_tree + 2] = " ".join([front, back])
-
-    @staticmethod
-    def add_left(index_in_tree, tree, token_str, prev):
-        tree[index_in_tree] = token_str
-        back, front = prev.pop(), prev.pop()
-        tree[(index_in_tree * 2)] = " ".join([front, back])
-
-    # fxn that handles input strings that have boolean expressions in them
-    @staticmethod
-    def create_bools(prereqs):
-        # lambda decls
-        get_left  = lambda x: tree[tree_idx * 2]
-        get_right = lambda x: tree[tree_idx * 2 + 1]
-
-
-        # TODO:
-        prev = list()
-        tokenized = prereqs.split(" ")
-        last_bool = ""
-        tree = [''] * (2 * len(tokenized) + 1)
-        ## NOTE this tree is 1-indexed, there will be nothing in tree[0]
-        tree_idx = 1
-        dif = 0
-        in_paren = False
-        for token in tokenized:
-            token_str = str(token)
-            if not token_str:
-                dif += 1
-                continue
-            if token_str.isalnum() and token_str in SUBJECT_LIST or ((len(token_str) == 3 or len(token_str) == 4) and not token_str.isalpha()):
-                if not token_str.isdigit():        # there is a parenthesis
-                    if token_str[:-1:].isdigit():
-                        prev.append(token_str)
-                        continue
-                    else: # invalid token
-                        prev.append(token_str)
-                        continue
-                else:
-                    prev.append(token_str)
-                    continue
-            else: #token has a parenthesis in it
-                if token_str[0] == "(":
-                    in_paren = True
-                    prev.append(token_str)
-                    continue
-
-            left = False
-            right = False
-            both = False
-            i = tree_idx
-            if not tree[0]:  # if there is no left child
-                tree[0] = token_str
-                back, front = prev.pop(), prev.pop()
-                tree[1] = " ".join([front, back])
-            else:
-                walk = True
-                i = 1
-                while (walk):
-                    if tree[i] and tree[i + 1] == "":
-                        left = True
-                        break
-
-                    if tree[i + 1] and tree[i] == "":
-                        right = True
-                        break
-
-                    if tree[i + 1] != "" and tree[i] != "":
-                        both = True
-
-                    if not tree[i + 1] and not tree[i]:
-                        walk = False
-                    i *= 2
-
-                    # assert(both == False)
-
-            if in_paren:
-                if token_str.rstrip() == "and":
-                    last_bool = "and"
-                    if left and not right:
-                        scraper.add_right(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-
-                    if right and not left:
-                        scraper.add_left(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-                    # tree[i] = last_bool = "and"
-                    # # TODO:
-                    # back, front = prev.pop(), prev.pop()
-                    # tree[i + 1] = ' '.join(front, back)
-
-
-                elif token_str.rstrip() == "or":
-                    last_bool = "or"
-                    if left and not right:
-                        scraper.add_right(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-                        # tree[i + 1] = token_str
-                        # back, front = prev.pop(), prev.pop()
-                        # tree[(2 * (i + 1))] = " ".join([front, back])
-
-                    if right and not left:
-                        scraper.add_left(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-
-
-            else: # not in a nested bool expression (no parenthesis)
-                # NOTE: tree_idx is still the left child of the root
-                # left  = False
-                # right = False
-                # both  = False
-                # i = tree_idx
-                # if not tree[0]: # if there is no left child
-                #     tree[0] = token_str
-                #     back, front = prev.pop(), prev.pop()
-                #     tree[1] = " ".join([front, back])
-                # else:
-                #     walk = True
-                #     i = 1
-                #     while(walk):
-                #         if tree[i] and tree[i+1] == "":
-                #             left = True
-                #             break
-                #
-                #         if tree[i + 1] and tree[i] == "":
-                #             right = True
-                #             break
-                #
-                #         if tree[i + 1]  != "" and tree[i] != "":
-                #             both = True
-                #
-                #
-                #         if not tree[i + 1] and not tree[i]:
-                #             walk = False
-                #         i *= 2
-                #
-                #         # assert(both == False)
-
-                if   token_str.rstrip() == "and":
-                    last_bool = "and"
-
-                    if left and not right:
-                        scraper.add_right(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-
-                    if right and not left:
-                        scraper.add_left(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-
-
-                    # elif right:
-                    #     pass
-                    # if both:
-                    #     tree[i] = token_str
-                    #     back, front = prev.pop(), prev.pop()
-                    #     tree[i + 1] = " ".join([front, back])
-
-                #TODO: refactor to use add_left and add_right
-                elif token_str.rstrip() == "or":
-                    last_bool = "or"
-                    if left and not right:
-                        scraper.add_right(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-                        # tree[i + 1] = token_str
-                        # back, front = prev.pop(), prev.pop()
-                        # tree[(2 * (i + 1))] = " ".join([front, back])
-
-                    if right and not left:
-                        scraper.add_left(index_in_tree=i, tree=tree, token_str=token_str, prev=prev)
-                        # tree[i] = token_str
-                        # back, front = prev.pop(), prev.pop()
-                        # tree[(i * 2)] = " ".join([front, back])
-
-        if prev[-1] == tokenized[-1]:  # right hand boolean expression has terminated
-            back, front = prev.pop(), prev.pop()
-            if not tree[tree_idx + 1] and tree[tree_idx]: # if there is not right child of current tree_idx
-                scraper.add_right(index_in_tree=tree_idx, tree=tree, token_str=last_bool, prev=prev)
-                # tree[tree_idx * 2] =
-
-            if tree[tree_idx + 1] and not tree[tree_idx]:
-                # scraper.add_left(index_in_tree=tree_idx, tree=tree, prev=prev[-1])
-                print("shouldn't be here")
-                scraper.add_left(index_in_tree=tree_idx, tree=tree, token_str=last_bool, prev=prev)
-
-            if tree[tree_idx + 1] and tree[tree_idx]:
-                # tree_idx += 1
-                # tree[tree_idx] = last_bool
-                if not tree[0]:
-                    print("root is empty")
-                else:
-                    print("at start of tree, tree_idx landed on : " + str(tree_idx))
-                    print()
-                    i = 1
-                    while (tree[i] != '' and tree[i + 1] != ''):
-                        i *= 2
-                    print("at end of tree, tree_idx landed on : " + str(tree_idx))
-                print(len(tree), i)
-                print(tree[i])
-                print(tree[i +1])
-                tree[i * 2 + 1] = last_bool
-                tree[(i * 2) * 2 + 2] = " ".join([front, back])
-
-        return tree
-
-    # strips and formats prerequisites from the parsed XML
-    # preps entry data for creating prereq list
-    @staticmethod
-    def get_prereqs(entry):
-        # print(entry)
-        idx = entry.find('PREREQUISITE(S)')
-        if idx == -1:
-            return []
-
-        tmp = len('PREREQUISITE(S):')
-        to_return = entry[idx + tmp::].strip()
-
-
-        return str(scraper.generate_bool_tree_array(entry))
 
 
     @staticmethod
@@ -604,16 +394,14 @@ class scraper(object):
         # print(page)
         # print(parser)
 
-        # TODO: format course's prerequisites
-        # prerequisite list generator
-        # def generate_prereq_list(prereq_info):
-        #     stack = deque()
-        #     print(prereq_info)
-        #     first_split = prereq_info.split(')')
-        #     if(len(first_split) >= 1): tmp = [parens.split('(') for parens in first_split]
-        #     # parens = []
-        #     print(tmp)
-        #     return ''
+        def get_prereqs(entry):
+            # print(entry)
+            idx = entry.find('PREREQUISITE(S)')
+            if idx == -1:
+                return []
+
+            to_return = entry[idx + len('PREREQUISITE(S):')::].strip()
+            return scraper.prereq_edge_cases(to_return)
 
         # EO == Every Other
         def check_typically_offered(entry):
@@ -706,7 +494,7 @@ class scraper(object):
             'subject'           : str(get_subject(entry)),
             'course_number'     : int(get_course_num(entry)),
             'typically_offered' : str(check_typically_offered(entry)),
-            'prereq'            : '',
+            'prereq'            : str(get_prereqs(get_long_descr(entry))),
 
             'delivery_method'   : str(pop_delivery_type(entry)),
             'day_of_week'       : get_day(entry),
@@ -723,6 +511,7 @@ class scraper(object):
 
 
 if __name__ == "__main__":
+    [print(i) for i in range(10,-1,-1)]
     tests = [
         "CSC 301 and CSC 373 and CSC 374",
         "CSC 301 or CSC 383 or CSC 393",
@@ -730,7 +519,9 @@ if __name__ == "__main__":
         "(CSC 301 or CSC 383 or CSC 393) and CSC 373",
         "(IT 240 or CSC 355)  and (CSC 212 or CSC 242 or CSC 243 or CSC 262 or CSC 224 or CSC 300 or CSC 309)"
     ]
-    tree = [scraper.generate_bool_tree_array(test) for test in tests]
+    # tree = [scraper.generate_bool_tree_array(test) for test in tests]
     # tree = scraper.generate_bool_tree_array("CSC 301 and CSC 373")
-    [print(t) for t in tree]
-    
+    # [print(t) for t in tree]
+    s = scraper()
+    # [print(r) for r in s.results]
+
