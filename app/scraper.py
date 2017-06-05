@@ -522,6 +522,6 @@ if __name__ == "__main__":
     # tree = [scraper.generate_bool_tree_array(test) for test in tests]
     # tree = scraper.generate_bool_tree_array("CSC 301 and CSC 373")
     # [print(t) for t in tree]
-    s = scraper()
+    # s = scraper()
     # [print(r) for r in s.results]
 
