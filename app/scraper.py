@@ -345,7 +345,7 @@ class scraper(object):
         if len(prereqs) < 12:
             # case 12
             if prereqs == "None":
-                return str([])
+                return ""
             # could be one course
 
         else:
