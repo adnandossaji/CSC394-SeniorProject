@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
@@ -14,30 +14,30 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 class User(Base):
-    __tablename__ = 'Users'
+    __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
-    role = db.Column(db.Integer, nullable=False) # FK
+    role_id = db.Column(db.Integer, db.ForeignKey('user_role.id'), nullable=False)
     active = db.Column(db.Integer, nullable=False)
-
     program = db.Column(db.String(120), nullable=False)
     concentration = db.Column(db.String(120), nullable=False)
     start_term = db.Column(db.String(10), nullable=False)
     start_year = db.Column(db.Integer, nullable=False)
     delivery_type = db.Column(db.Integer, nullable=False)
     classes_per_term = db.Column(db.Integer, nullable=False)
-    
     taken = db.Column(db.String(120), nullable=False)
+
+    role = db.relationship("UserRole")
     
 
-    def __init__(self, name, email, password, role, active, program, concentration, start_term, start_year, delivery_type, classes_per_term, taken):
+    def __init__(self, name, email, password, role_id, active, program, concentration, start_term, start_year, delivery_type, classes_per_term, taken):
         self.name = name
         self.email = email
         self.password = password
-        self.role = role
+        self.role_id = role_id
         self.active = active
         self.program = program
         self.concentration = concentration
@@ -47,8 +47,8 @@ class User(Base):
         self.classes_per_term = classes_per_term
         self.taken = taken		
 
-class Role(Base):
-    __tablename__ = 'Role'
+class UserRole(Base):
+    __tablename__ = 'user_role'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)
@@ -57,7 +57,7 @@ class Role(Base):
         self.name = name
 
 class CourseType(Base):
-    __tablename__ = 'CourseType'
+    __tablename__ = 'course_type'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)
@@ -65,10 +65,8 @@ class CourseType(Base):
     def __init__(self, name):
         self.name = name
 
-
-
 class Course(Base):
-    __tablename__ = 'Course'
+    __tablename__ = 'course'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     subject = db.Column(db.String(100), nullable=False)
@@ -115,7 +113,7 @@ class Course(Base):
 
 
 class Term(Base): 
-    __tablename__ = 'Term'
+    __tablename__ = 'term'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)

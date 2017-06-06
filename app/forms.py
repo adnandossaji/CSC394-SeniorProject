@@ -1,7 +1,7 @@
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Length
-from app.models import User, Role, CourseType, Course, Term
+from app.models import *
 
 class RegisterForm(Form):
     name = TextField('Username', validators=[DataRequired(), Length(min=6, max=25)]    )
@@ -9,17 +9,24 @@ class RegisterForm(Form):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)]    )
     confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
 
-    program = SelectField("Program", validators=[DataRequired()], choices=[("IS", "Information Systems"), ("CS", "Computer Science")])
-    concentration = SelectField("Concentration", validators=[DataRequired()], choices=[ ("Software and Systems Development", "Software and Systems Development"),
-                                                                    ("Theory", "Theory"),
-                                                                    ("Data Science", "Data Science"),
-                                                                    ("Database Systems", "Database Systems"),
-                                                                    ("Artificial Intelligence", "Artificial Intelligence"),
-                                                                    ("Software Engineering","Software Engineering"),
-                                                                    ("Multimedia", "Multimedia")])
+    program = SelectField("Program", validators=[DataRequired()], choices=[
+            ("Information Systems", "Information Systems"),
+            ("Computer Science", "Computer Science")
+        ]
+    )
+    concentration = SelectField("Concentration", validators=[DataRequired()], choices=[
+            ("Software and Systems Development", "Software and Systems Development"),
+            ("Theory", "Theory"),
+            ("Data Science", "Data Science"),
+            ("Database Systems", "Database Systems"),
+            ("Artificial Intelligence", "Artificial Intelligence"),
+            ("Software Engineering","Software Engineering"),
+            ("Multimedia", "Multimedia")
+        ]
+    )
     
     start_term = SelectField("Starting Term", validators=[DataRequired()], choices=[("Autumn", "Autumn"), ("Winter", "Winter"), ("Spring", "Spring")])
-    start_year = SelectField("Starting Year", validators=[DataRequired()], choices=[("0", "2017"), ("1", "2018")])
+    start_year = SelectField("Starting Year", validators=[DataRequired()], choices=[("2017", "2017"), ("2018", "2018")])
     delivery_type = SelectField("Delivery Preference", validators=[DataRequired()], choices=[("In-Class Only", "In-Class Only"), ("Online Only", "Online Only"), ("In-Class or Online", "In-Class or Online")])
     classes_per_term = SelectField("Classes per Term", validators=[DataRequired()], choices=[("1", "1"), ("2", "2"), ("3", "3")])
 

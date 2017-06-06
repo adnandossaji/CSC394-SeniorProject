@@ -22,23 +22,23 @@
 				<table class="table table-striped">
 					<tr>
 						<td>Program:</td>
-						<td>Computer Science</td>
+						<td>{{ user.program }}</td>
 					</tr>
 					<tr>
 						<td>Concentration:</td>
-						<td>Software and Systems Development</td>
+						<td>{{ user.concentration }}</td>
 					</tr>
 					<tr>
 						<td>Starting Quarter:</td>
-						<td>Fall 2017</td>
+						<td>{{ "{} {}".format(user.start_term, user.start_year) }}</td>
 					</tr>
 					<tr>
 						<td>Delivery Preference:</td>
-						<td>In-class and Online</td>
+						<td>{{ user.delivery_type }}</td>
 					</tr>
 					<tr>
 						<td>Classes per Quarter:</td>
-						<td>2</td>
+						<td>{{ user.classes_per_term }}</td>
 					</tr>
 				</table>
 			</div>

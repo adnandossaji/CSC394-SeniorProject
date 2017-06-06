@@ -79,22 +79,12 @@ def admin():
     else:
         render_template('errors/404.html')
 
-
-    students = []
-
-    for i in range(0,11):
-        students.append(
-            {
-                "name": "Student %s" % i,
-                "email": "student%s@mail.depaul.edu" % i,
-                "pending": True if i % 3 else False
-            }
-        )
+    users = User.query.all()
     
     return render_template(
         'pages/placeholder.admin.html',
         user=user,
-        students=students
+        users=users
     )
 
 @app.route('/getPath')
@@ -240,7 +230,8 @@ def register():
                 form=form
             )
         else:
-            user = User(form.name.data, form.email.data, form.password.data, 3, False, form.program.data, form.concentration.data, form.start_term.data, form.start_year.data, 1, form.classes_per_term.data, "{}")
+
+            user = User(form.name.data, form.email.data, form.password.data, 3, False, form.program.data, form.concentration.data, form.start_term.data, form.start_year.data, form.delivery_type.data, form.classes_per_term.data, "{}")
             db.session.add(user)
             db.session.commit()
 

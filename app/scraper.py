@@ -235,7 +235,7 @@ class scraper(object):
                                 print(clean_courses[z])
                                 packed = pack_nested_reqs(phase, clean_courses[z])
                                 # clean_courses.pop(z)
-                                reqs_and_courses.update({packed})
+                                # reqs_and_courses.update({packed})
                                 [print(p, v) for p, v in packed.items()]
 
                             i = z

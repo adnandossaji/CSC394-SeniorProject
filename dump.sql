@@ -363,34 +363,4 @@ CREATE TABLE user (
 );
 INSERT INTO "user" VALUES(1,'admin','admin@gmail.com','102137',1,0,'Information Systems','Software and Systems Development','Autumn',2017,'In-Class Only',1,'{}');
 INSERT INTO "user" VALUES(2,'stutofac','stutofac@gmail.com','102137',3,0,'Information Systems','Software and Systems Development','Autumn',2017,'In-Class Only',1,'{}');
-CREATE TABLE "Users" (
-	id INTEGER NOT NULL, 
-	name VARCHAR(120) NOT NULL, 
-	email VARCHAR(120) NOT NULL, 
-	password VARCHAR(30) NOT NULL, 
-	role INTEGER NOT NULL, 
-	active INTEGER NOT NULL, 
-	program VARCHAR(120) NOT NULL, 
-	concentration VARCHAR(120) NOT NULL, 
-	start_term VARCHAR(10) NOT NULL, 
-	start_year INTEGER NOT NULL, 
-	delivery_type INTEGER NOT NULL, 
-	classes_per_term INTEGER NOT NULL, 
-	taken VARCHAR(120) NOT NULL, 
-	PRIMARY KEY (id), 
-	UNIQUE (id), 
-	UNIQUE (email)
-);
-CREATE TABLE "Role" (
-	id INTEGER NOT NULL, 
-	name VARCHAR(120) NOT NULL, 
-	PRIMARY KEY (id), 
-	UNIQUE (id)
-);
-CREATE TABLE "CourseType" (
-	id INTEGER NOT NULL, 
-	name VARCHAR(120) NOT NULL, 
-	PRIMARY KEY (id), 
-	UNIQUE (id)
-);
 COMMIT;
