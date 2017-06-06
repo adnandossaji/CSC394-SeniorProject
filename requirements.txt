@@ -1,4 +1,6 @@
 alembic==0.9.1
+beautifulsoup4==4.6.0
+bs4==0.0.1
 click==6.7
 coverage==3.7.1
 ecdsa==0.10
@@ -11,11 +13,12 @@ Flask-WTF==0.9.4
 gunicorn==19.3.0
 itsdangerous==0.23
 Jinja2==2.7.2
+lxml==3.7.3
 Mako==1.0.6
 MarkupSafe==0.18
 paramiko==1.12.2
 pycrypto==2.6.1
 python-editor==1.0.3
 SQLAlchemy==0.9.3
-Werkzeug==0.12.2
+Werkzeug==0.9.4
 WTForms==1.0.5
