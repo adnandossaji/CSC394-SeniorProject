@@ -62,7 +62,7 @@ class Search:
             number = course.split(" ")[1]
             q_course = Course.query.filter_by(subject = subject).filter_by(course_number = number).first()
 
-            if (subject+" "+number) not in n.taken_overall and n.preqCheck(course) and course.day_of_week not in n.days:
+            if (subject+" "+number) not in n.taken_overall and n.preqCheck(q_course) and course.day_of_week not in n.days:
                 available.append(q_course)
 
         # add non-course, i.e., not taking a course
