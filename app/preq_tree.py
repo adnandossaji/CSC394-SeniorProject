@@ -73,22 +73,24 @@ class bool_tree(object):
 
     # evaluate the tree
     def evaluate(self, taken):
-        bool_left  = self.__evaluate_subtree(self.root.left, taken)
-        if self.root.right:
-            bool_right = self.__evaluate_subtree(self.root.right, taken)
-            if self.root.n_type == node_type.AND:
-                return bool_right and bool_left
-            else:
-                return bool_right or bool_left
+        if self.root and not isinstance(self.root, str):
+            bool_left  = self.__evaluate_subtree(self.root.left, taken)
+            if self.root.right:
+                bool_right = self.__evaluate_subtree(self.root.right, taken)
+                if self.root.n_type == node_type.AND:
+                    return bool_right and bool_left
+                else:
+                    return bool_right or bool_left
 
-        elif self.root.left.right:
-            bool_right = self.__evaluate_subtree(self.root.left.right, taken)
+            elif self.root.left.right:
+                bool_right = self.__evaluate_subtree(self.root.left.right, taken)
 
-            if self.root.n_type == node_type.AND:
-                return bool_right and bool_left
-            else:
-                return bool_right or bool_left
-        return bool_left
+                if self.root.n_type == node_type.AND:
+                    return bool_right and bool_left
+                else:
+                    return bool_right or bool_left
+            
+            return bool_left
 
     def __evaluate_subtree(self, subtree, taken):
             # determine if subtree is a nested expression
@@ -105,6 +107,10 @@ class bool_tree(object):
 
     def tree_from_prereq_str(self, prereqs, idx = 0):
         tokenized = prereqs.replace('  and', ' and').split(" ")
+
+        if len(tokenized) == 2:
+            return prereqs
+
         if ' ' in tokenized:
             raise Exception(" tokenizing input string failed because an extra whitespace fucked everything up")
 
@@ -153,7 +159,7 @@ class bool_tree(object):
                                     in_node_type=tokenized[self.pos]
                                 )
                                 print(tokenized[self.pos])
-                                if self.pos + 1 < len(tokenized) and tokenized[self.pos + 1][0] != '(':
+                                if self.pos + 1 < len(tokenized): # and tokenized[self.pos + 1][0] != '(':
                                     lhs.right= bool_node(
                                         course=" ".join([tokenized[self.pos + 1], tokenized[self.pos + 2]]),
                                         in_node_type=node_type.COURSE

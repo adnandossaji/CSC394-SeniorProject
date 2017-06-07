@@ -62,7 +62,7 @@ class Search:
             number = course.split(" ")[1]
             q_course = Course.query.filter_by(subject = subject).filter_by(course_number = number).first()
 
-            if (subject+" "+number) not in n.taken_overall and n.preqCheck(q_course) and course.day_of_week not in n.days:
+            if (subject+" "+number) not in n.taken_overall and n.preqCheck(q_course) and q_course.day_of_week not in n.days:
                 available.append(q_course)
 
         # add non-course, i.e., not taking a course
@@ -103,7 +103,7 @@ class Search:
     ''' determines if current node is a valid path to graduation ''' 
     def isTerminal(n, required, electives, num_electives):
         # check that units requirement was met
-        if (n.year == 2024):
+        if (n.year == 2020):
             return True 
 
         if (n.units_left > 0):

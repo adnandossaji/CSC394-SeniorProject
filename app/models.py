@@ -91,27 +91,6 @@ class Course(Base):
         self.delivery_method = delivery_method
         self.day_of_week     = day_of_week
 
-    # when representing coures, give just course_id as integer
-    def __repr__(self):
-        return str(self.course_number)        
-    
-    def __str__(self):
-        return str(self.course_number)
-    
-    # when adding courses, give course units value as integer
-    def __radd__(self, other):
-        return self.units + other
-    
-    def __add__(self, other):
-        return self.units + other
-
-    def __hash__(self):
-        return self.course_number
-
-    def __eq__(self, other):
-        return self.course_number == other.course_number
-
-
 class Term(Base): 
     __tablename__ = 'term'
 

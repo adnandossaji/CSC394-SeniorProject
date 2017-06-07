@@ -67,6 +67,7 @@ class Node:
 		if (course.day_of_week != 0):
 			new_days.append(course.day_of_week)
 
+		print(self.units_left, course.credits)
 
 		return Node(new_num_quarters, new_assigned,  new_taken, new_taken_overall, new_days, 
 					self.units_left - course.credits, new_quarter, new_year, self.per_quarter, self)
@@ -97,23 +98,19 @@ class Node:
 
 	''' checks if course has prerequisites already met '''
 	def preqCheck(self, course):
-		print(course.prereq)
-		if course.prereq:
-			return True 
-		elif not course.prereq:
+		if not course.prereq or course.prereq in ["None", "[]"]:
 			return True
 		else:
 			if not self.taken:
 				return False
-			else: 
-				# check if just single prereq
-				test = course.prereq.split()
-				if len(test) == 2:
-					return course.prereq in self.taken
-				else:
-					a = bool_tree()
-					a.root = a.tree_from_prereq_str(course.prereq)
+			else:
+				a = bool_tree()
+				# import pdb
+				# pdb.set_trace()
+				a.root = a.tree_from_prereq_str(course.prereq)
+				if isinstance(a, bool_tree):
 					return a.evaluate(self.taken)
+				return (course.prereq in self.taken)
 
 	''' helper function to get next quarter '''
 	def getNextQuarter(self):
