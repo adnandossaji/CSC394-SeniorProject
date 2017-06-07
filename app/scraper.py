@@ -69,7 +69,7 @@ class scraper(object):
         # open the web page
         with closing(urlopen(COURSE_CATALOG)) as page:
             xml = page.read()
-            soup = BeautifulSoup(xml, features="lxml")
+            soup = BeautifulSoup(xml, features="xml")
             # TODO: remove [ used to locate
             print("    =============================================")
             print("    ||      >>> COURSE SCRAPER CREATED <<<     || ")

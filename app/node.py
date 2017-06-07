@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-from copy import copy
-from app.preq_tree import *
-=======
 import copy
 from app.preq_tree import *
 from app.models import *
->>>>>>> 28bae70e04c69179519a11fcd3edc6ab316e7378
 
 class Node:
 	'''node object representing each assignment'''
@@ -101,7 +96,8 @@ class Node:
 
 	''' checks if course has prerequisites already met '''
 	def preqCheck(self, course):
-		if len(course.prereq) == 0:
+		print(course.prereq)
+		if course.prereq:
 			return True 
 		elif not course.prereq:
 			return True
@@ -122,7 +118,7 @@ class Node:
 	def getNextQuarter(self):
 		# dictionary to switch with
 		nextQuarters = {"Autumn": ("Winter", self.year+1) , "Winter": ("Spring", self.year), 
-						"Spring": ("Summer", self.year), "Summer": ("Fall", self.year)}
+						"Spring": ("Summer", self.year), "Summer": ("Autumn", self.year)}
 
 		return nextQuarters[self.quarter]
 

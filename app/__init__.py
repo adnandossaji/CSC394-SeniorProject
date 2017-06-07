@@ -62,7 +62,7 @@ def home(path=None):
         user = User.query.filter_by(email = session['email']).first()
     else:
         return redirect(url_for('login'))
-    
+
     if user.role.name == "Faculty" or user.role.name == "Admin":
         return redirect(url_for('admin'))
 
@@ -207,6 +207,7 @@ def getPath(user_id=None):
         quarter_offered = json.loads(course.quarter_offered.replace('\'', "\""))
         for off in quarter_offered:
             if (off == "As Needed"):
+
                 offered["Autumn"].append("{} {}".format(course.subject, course.course_number))
                 offered["Spring"].append("{} {}".format(course.subject, course.course_number))
                 offered["Summer"].append("{} {}".format(course.subject, course.course_number))
@@ -227,15 +228,6 @@ def getPath(user_id=None):
 
     taken = set(user.taken.split(","))
 
-    units_left = 24
-    for course in taken:
-        units_left -= 4
-
-
-
-    # def __init__(self, num_quarters, assigned, taken, taken_overall, days, units_left, quarter, year, per_quarter, parent):
-    root = Node(0, assigned, set(), set(), days, units_left, "Autumn", 2017, user.classes_per_term, None)
-
     requirements = [['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407'], 
     ['CSC 421 ', 'CSC 435', 'CSC 447', 'CSC 453', 'SE 450'], 
     ['CSC 436', 'CSC 438', 'CSC 439', 'CSC 443', 'CSC 448', 'CSC 461', 'CSC 462', 'CSC 471', 'CSC 472', 'CSC 475', 'CSC 534', 'CSC 536', 'CSC 540', 'CSC 548', 'CSC 549', 'CSC 551', 'CSC 552', 'CSC 553', 'CSC 595', 'CNS 450', 'GAM 690', 'GAM 691', 'HCI 441', 'SE 441', 'SE 452', 'SE 459', 'SE 525', 'SE 526', 'SE 554', 'SE 560', 'TDC 478', 'TDC 484', 'TDC 568'], 
@@ -246,7 +238,14 @@ def getPath(user_id=None):
     ['SE 430', 'SE 433', 'SE 441', 'SE 452', 'SE 453', 'SE 456', 'SE 457', 'SE 459', 'SE 475', 'SE 477', 'SE 480', 'SE 482', 'SE 491', 'SE 525', 'SE 526', 'SE 529', 'SE 533', 'SE 546', 'SE 549', 'SE 554', 'SE 556', 'SE 560', 'SE 579', 'SE 581', 'SE 582', 'SE 591'], 
     ['CSC 461', 'CSC 462', 'GAM 450', 'GAM 453', 'GAM 475', 'GAM 476', 'GAM 486', 'GAM 490', 'GAM 575', 'GAM 576', 'GAM 690', 'GAM 691', 'GPH 436', 'GPH 469', 'GPH 570', 'GPH 572', 'GPH 580', 'HCI 440', 'SE 456', 'SE 556']]
 
-    path = Search.aStar(root, offered, requirements[0]+requirements[1], [],  0)
+    units_left = 24
+    for course in taken:
+        units_left -= 4
+
+    # def __init__(self, num_quarters, assigned, taken, taken_overall, days, units_left, quarter, year, per_quarter, parent):
+    root = Node(0, assigned, set(), set(), days, units_left, "Autumn", 2017, user.classes_per_term, None)
+
+    path = Search.aStar(root, offered, requirements[0]+requirements[0], [],  0)
 
     print(path)
     return render_template(

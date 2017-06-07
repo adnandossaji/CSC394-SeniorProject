@@ -23,7 +23,7 @@ class Search:
             current = frontier.pop()
 
             # if this meets all requirements, build path dictionary and return it
-            if Search.isTerminal(current, required, electives):
+            if Search.isTerminal(current, required, electives, num_electives):
                 return current.solution()
 
             # consider this set of courses as having been explored
@@ -96,14 +96,16 @@ class Search:
 
 
     ''' determines if current node is a valid path to graduation ''' 
-    def isTerminal(n, required, electives):
+    def isTerminal(n, required, electives, num_electives):
         # check that units requirement was met
         if (n.units_left > 0):
+            print("here 1")
             return False
 
         # check if all required courses were taken
         for req in required:
-            if req.course_id not in n.taken_overall:
+            if req not in n.taken_overall:
+                print("here 2")
                 return False
 
         # check that electives were taken
@@ -113,6 +115,7 @@ class Search:
                 elec_count += 1
 
         if elec_count < num_electives:
+            print("here 3")
             return False
 
         return True
