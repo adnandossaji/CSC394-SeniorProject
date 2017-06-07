@@ -98,7 +98,9 @@ def paths():
         courses_taken=courses_taken,
         degree_credits=degree_credits,
         last_path=json.loads(user.last_path),
-        paths=paths,
+        paths=reversed(paths),
+        len_paths=len(paths),
+        len=len,
         enumerate=enumerate
     )
 
