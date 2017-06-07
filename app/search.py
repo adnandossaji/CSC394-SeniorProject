@@ -1,13 +1,11 @@
 from app.node import Node
 from app.priority import Priority
 from app.dummyCourse import *
+from app.models import *
 
 # this is the only place we need to connect to the database, and only to give parameters to a root node
 
 class Search:
-    # TODO: link here to database
-    #use database to set up root node () and courses offered by quarter (treated here as a dictionary)
-
 
     ''' a* algorithm for searching for shortest path adapted from psuedocode of Norvig and Russel's AI: A Modern Approach '''
     def aStar(root, offered, required, electives, num_electives):
@@ -51,11 +49,30 @@ class Search:
 
     ''' successor function: returns list of all possible courses that can be assigned '''
     def validCourses(n, offered):
-        available = [course for course in offered[n.quarter] if course.course_id not in n.taken_overall and 
-                     n.preqCheck(course) and course.day not in n.days]
+        
+        available = []
+
+        for course in offered[n.quarter]:
+            subject = course.split(" ")[0]
+            number = course.split(" ")[1]
+            course = Course.query.filter_by(subject = subject).filter_by(course_number = number).first()
+
+            if course not in n.taken_overall and n.preqCheck(course) and course.day_of_week not in n.days:
+                available.append(course)
 
         # add non-course, i.e., not taking a course
-        available.append(DummyCourse("None", "None", 0, 0))
+        dummy_course = Course(
+            subject = "",
+            course_number = "None",
+            prereq = "None",
+            day_of_week = 0,
+            credits = 0,
+            description = "",
+            quarter_offered = n.quarter,
+            delivery_method = ""
+        )
+
+        available.append(dummy_course)
 
         return available
 
