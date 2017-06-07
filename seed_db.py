@@ -3,7 +3,7 @@ import sqlite3
 def main():
     conn = sqlite3.connect('database.db')
 
-    sql_file = open("dump.sql", "r").read()
+    sql_file = open("seed.sql", "r").read()
 
     try:
         conn.executescript(sql_file)

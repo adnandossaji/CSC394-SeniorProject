@@ -1,0 +1,84 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- Start Window -->
+<div class="container-fluid" >
+
+	<!-- Padding Row -->
+	<div class="row">&nbsp;</div>
+	
+	<!-- Start Main Row -->
+	<div class="row">
+
+		{% for n, path in enumerate(paths) %}
+		<!-- Start Right Column -->
+		<div class="col-xs-12 col-md-6">
+		
+			<!-- Start Path Panel -->
+			<div class="panel panel-default">
+			
+				<!-- Start Path Header -->
+				<div class="panel-heading">
+					<h4>Path {{ n+1 }}</h4>
+				</div>
+				<!-- End Path Header -->
+				
+				<!-- Start Path Body -->
+				<div class="panel-body overflow">
+					<!-- Start Path Loop -->
+					{% if path %}
+						{% for term in path %}
+						<h4>{{ term }}</h4>
+						<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
+							<ul>
+								<!-- Start Term Loop -->
+								{% for course in path[term] %}
+								<li>{{ course }}</li>
+								{% endfor %}
+								<!-- End Term Loop -->
+							</ul>
+						</div>
+						{% endfor %}
+					{% elif last_path %}
+						{% for term in last_path %}
+						<h4>{{ term }}</h4>
+						<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
+							<ul>
+								<!-- Start Term Loop -->
+								{% for course in last_path[term] %}
+								<li>{{ course }}</li>
+								{% endfor %}
+								<!-- End Term Loop -->
+							</ul>
+						</div>
+						{% endfor %}				
+					{% else %}
+						<h4>{{ term }}</h4>
+						<div style="background: #ecf3fd; padding: 20px; border-radius: 10px;">
+						  <p>No path</p>
+						</div>
+					{% endif %}
+					<!-- End Path Loop -->
+					
+				</div>
+				<!-- End Path Body -->
+				
+				
+			</div>
+			<!-- End Path Panel -->
+			
+		</div>
+		<!-- End Right Column -->
+		{% endfor %}
+		
+	</div>
+	<!-- End Main Row -->
+	
+	<!-- Padding Row -->
+	<div class="row">&nbsp;</div>
+	
+</div>
+<!-- End Window -->
+
+{% endblock %}

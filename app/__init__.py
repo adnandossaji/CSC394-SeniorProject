@@ -74,7 +74,33 @@ def home(path=None):
         user=user,
         path=path,
         courses_taken=courses_taken,
-        degree_credits=degree_credits
+        degree_credits=degree_credits,
+        last_path=json.loads(user.last_path)
+    )
+
+@app.route('/paths')
+def paths():
+    user = None
+
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else:
+        return redirect(url_for('login'))
+
+    courses_taken = [Course.query.filter_by(id = x).first().title() for x in json.loads(user.taken)]
+    degree_credits = len(courses_taken) * 4
+
+    paths = [json.loads(x.path) for x in user.paths]
+
+    return render_template(
+        'pages/placeholder.paths.html',
+        user=user,
+        path=path,
+        courses_taken=courses_taken,
+        degree_credits=degree_credits,
+        last_path=json.loads(user.last_path),
+        paths=paths,
+        enumerate=enumerate
     )
 
 @app.route('/profile/<user_id>')
@@ -96,7 +122,8 @@ def profile(path=None, user_id=None):
         user=user,
         path=path,
         courses_taken=courses_taken,
-        degree_credits=degree_credits
+        degree_credits=degree_credits,
+        last_path=json.loads(user.last_path)
     )
 
 @app.route('/admin')
@@ -108,7 +135,8 @@ def admin():
         render_template('errors/404.html')
 
     if user.role.name == "Faculty":
-        users = User.query.filter_by(role_id = "3").all()
+        users = [user]
+        users += User.query.filter_by(role_id = "3").all()
     else:
         users = User.query.all()
     
@@ -181,10 +209,30 @@ def editUser(user_id):
             user=user,
             form=form,
             courses_taken=courses_taken,
-            degree_credits=degree_credits                    
+            degree_credits=degree_credits,
+            last_path=json.loads(user.last_path)                  
         )
 
 
+@app.route('/savePath')
+@app.route('/savePath/<user_id>')
+def savePath(user_id=None):
+
+    user = None
+
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else:
+        return redirect(url_for('login'))
+
+    if user_id:
+        user = User.query.filter_by(id = user_id).first()
+
+    save_path = Path(user.id, user.last_path)
+    db.session.add(save_path)
+    db.session.commit()
+
+    return redirect(url_for('home'))
 
 @app.route('/getPath')
 @app.route('/getPath/<user_id>')
@@ -278,13 +326,18 @@ def getPath(user_id=None):
     courses_taken = [Course.query.filter_by(id = x).first().title() for x in json.loads(user.taken)]
     degree_credits = len(courses_taken) * 4
 
-    print(path)
+    user.last_path = json.dumps(path)
+
+    curr_db = db.session.object_session(user)
+    curr_db.commit()
+
     return render_template(
         'pages/placeholder.home.html', 
         path=path, 
         user=user,
         courses_taken=courses_taken,
-        degree_credits=degree_credits
+        degree_credits=degree_credits,
+        last_path=json.loads(user.last_path)
     )
 
 
@@ -350,7 +403,7 @@ def register():
 
             session['email'] = user.email
 
-        return render_template('pages/placeholder.home.html', user=user)
+        return redirect(url_for('home'))
 
     elif request.method == 'GET':
 

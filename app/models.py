@@ -29,11 +29,14 @@ class User(Base):
     delivery_type = db.Column(db.Integer, nullable=False)
     classes_per_term = db.Column(db.Integer, nullable=False)
     taken = db.Column(db.String(120), nullable=False)
+    last_path = db.Column(db.String(120), nullable=False)
 
     role = db.relationship("UserRole")
+
+    paths = db.relationship("Path")
     
 
-    def __init__(self, name, email, password, role_id, active, program, concentration, start_term, start_year, delivery_type, classes_per_term, taken):
+    def __init__(self, name, email, password, role_id, active, program, concentration, start_term, start_year, delivery_type, classes_per_term, taken, last_path="{}"):
         self.name = name
         self.email = email
         self.password = password
@@ -46,6 +49,18 @@ class User(Base):
         self.delivery_type = delivery_type
         self.classes_per_term = classes_per_term
         self.taken = taken
+        self.last_path = last_path
+
+class Path(Base):
+    __tablename__ = 'path'
+
+    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    path = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, user_id, path):
+        self.user_id = user_id
+        self.path = path
 
 class UserRole(Base):
     __tablename__ = 'user_role'
