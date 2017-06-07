@@ -45,7 +45,7 @@ class Search:
                     # add it to the queue
                     frontier.push(child)
                 # if it is already on the queue, only consider the least cost one
-                elif child in frontier):
+                elif child in frontier:
                     # replace if less than
                     frontier.replace(child)
 
