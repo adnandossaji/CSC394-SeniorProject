@@ -98,6 +98,9 @@ class Search:
     ''' determines if current node is a valid path to graduation ''' 
     def isTerminal(n, required, electives, num_electives):
         # check that units requirement was met
+        if (n.year == 2024):
+            return True 
+            
         if (n.units_left > 0):
             print("here 1")
             return False
