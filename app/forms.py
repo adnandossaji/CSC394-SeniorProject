@@ -21,7 +21,12 @@ class RegisterForm(Form):
             ("Database Systems", "Database Systems"),
             ("Artificial Intelligence", "Artificial Intelligence"),
             ("Software Engineering","Software Engineering"),
-            ("Multimedia", "Multimedia")
+            ("Multimedia", "Multimedia"),
+			("Business Analysis/System Analysis", "Business Analysis/System Analysis"),
+			("Business Intelligence", "Business Intelligence"),
+			("Database Administration", "Database Administration"),
+			("IT Enterprise", "IT Enterprise"),
+			("Standard", "Standard")
         ]
     )
     
