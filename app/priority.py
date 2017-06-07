@@ -26,18 +26,18 @@ class Priority:
     def get(self, node):
         print(self)
         index = self.queue.index(node)
-        return queue[index]
+        return self.queue[index]
 
     def remove(self, node):
         index = self.queue.index 
         self.queue.remove(index)
-        heapq.heapify(queue)
+        heapq.heapify(self.queue)
 
         del self.lookup[node] 
 
     def replace(self, node):
         try:
-            (cost, check, count) = lookup[node]
+            (cost, check, count) = self.lookup[node]
             if (cost <= node.num_terms):
                 # if what's on queue is already lowest, do nothing; return
                 return 

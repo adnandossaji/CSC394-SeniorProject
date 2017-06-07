@@ -63,11 +63,10 @@ class Node:
 		# add course to taken overall
 		new_taken_overall.add("{} {}".format(course.subject, course.course_number))
 
-		# add day if not online 
-		if (course.day_of_week != 0):
-			new_days.append(course.day_of_week)
+		# # add day if not online 
+		# if (course.day_of_week != 0):
+		# 	new_days.append(course.day_of_week)
 
-		print(self.units_left, course.credits)
 
 		return Node(new_num_quarters, new_assigned,  new_taken, new_taken_overall, new_days, 
 					self.units_left - course.credits, new_quarter, new_year, self.per_quarter, self)
@@ -82,7 +81,7 @@ class Node:
 		current = self
 		
 		while (current.parent != None):
-			current_term = current.quarter + str(current.year)
+			current_term = current.quarter + " " + str(current.year)
 			# keep going up tree until a novel term is reached
 			if current_term in path:
 				current = current.parent
@@ -105,8 +104,6 @@ class Node:
 				return False
 			else:
 				a = bool_tree()
-				# import pdb
-				# pdb.set_trace()
 				a.root = a.tree_from_prereq_str(course.prereq)
 				if isinstance(a, bool_tree):
 					return a.evaluate(self.taken)

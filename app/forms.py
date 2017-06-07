@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import TextField, PasswordField, SubmitField, SelectField
+from wtforms import TextField, PasswordField, SubmitField, SelectField, SelectMultipleField
 from wtforms.validators import DataRequired, EqualTo, Length
 from app.models import *
 
@@ -73,6 +73,8 @@ class EditUserForm(Form):
     start_year = SelectField("Starting Year", validators=[DataRequired()], choices=[("2017", "2017"), ("2018", "2018")])
     delivery_type = SelectField("Delivery Preference", validators=[DataRequired()], choices=[("In-Class Only", "In-Class Only"), ("Online Only", "Online Only"), ("In-Class or Online", "In-Class or Online")])
     classes_per_term = SelectField("Classes per Term", validators=[DataRequired()], choices=[("1", "1"), ("2", "2"), ("3", "3")])
+
+    taken = SelectMultipleField("Taken", choices=[])
 
     submit = SubmitField("Save Changes")
 

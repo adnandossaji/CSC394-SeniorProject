@@ -58,7 +58,13 @@
 					<h4>Course History</h4>
 				</div>
 				<div class="panel-body">
-					<p>CSC 400, CSC 401</p>
+					<p>
+					{% for course in courses_taken %}
+
+						{{ course }}
+
+					{% endfor %}
+					</p>
 				</div>
 			</div>
 			<!-- End Course History Panel-->
@@ -70,7 +76,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="progress">
-						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:15%">8 Credits Completed</div>
+						<div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ (degree_credits / 24) * 100 }}%">{{ degree_credits }} Credits Completed</div>
 					</div>
 				</div>
 			</div>

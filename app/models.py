@@ -45,7 +45,7 @@ class User(Base):
         self.start_year = start_year
         self.delivery_type = delivery_type
         self.classes_per_term = classes_per_term
-        self.taken = taken		
+        self.taken = taken
 
 class UserRole(Base):
     __tablename__ = 'user_role'
@@ -80,6 +80,7 @@ class Course(Base):
 
     delivery_method = db.Column(db.Integer, nullable=False)
 
+
     def __init__(self, subject, course_number, prereq, day_of_week, credits, description, quarter_offered, delivery_method):
         self.subject = subject
         self.course_number = course_number
@@ -90,6 +91,9 @@ class Course(Base):
         self.quarter_offered = quarter_offered
         self.delivery_method = delivery_method
         self.day_of_week     = day_of_week
+
+    def title(self):
+        return "{} {}".format(self.subject, self.course_number)
 
 class Term(Base): 
     __tablename__ = 'term'
