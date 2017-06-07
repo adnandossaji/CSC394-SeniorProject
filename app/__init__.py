@@ -87,7 +87,10 @@ def paths():
     else:
         return redirect(url_for('login'))
 
-    courses_taken = [Course.query.filter_by(id = x).first().title() for x in json.loads(user.taken)]
+    if user.taken:
+        courses_taken = [Course.query.filter_by(id = x).first().title() for x in json.loads(user.taken)]
+    else:
+        courses_taken = []
     degree_credits = len(courses_taken) * 4
 
     paths = [json.loads(x.path) for x in user.paths]

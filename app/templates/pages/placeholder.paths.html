@@ -8,6 +8,7 @@
 	<!-- Padding Row -->
 	<div class="row">&nbsp;</div>
 	
+	{% if paths == [] %}
 	<!-- Start Main Row -->
 	<div class="row">
 
@@ -73,6 +74,13 @@
 		{% endfor %}
 		
 	</div>
+	{% else %}
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<h1>No saved paths</h1>
+		</div>
+	</div>
+	{% endif %}
 	<!-- End Main Row -->
 	
 	<!-- Padding Row -->
