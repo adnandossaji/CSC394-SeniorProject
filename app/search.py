@@ -54,8 +54,8 @@ class Search:
         new_quarter = n.quarter
 
         # if assigned is full, this is a new quarter, check next quarter
-        if (len(self.assigned) == self.per_quarter):
-            (new_quarter, new_year) = self.getNextQuarter()
+        if (len(n.assigned) == n.per_quarter):
+            (new_quarter, new_year) = n.getNextQuarter()
 
         for course in offered[new_quarter]:
             subject = course.split(" ")[0]
