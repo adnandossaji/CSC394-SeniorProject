@@ -46,5 +46,6 @@
   ```
 
 6. Navigate to [http://localhost:8000](http://localhost:8000)
+7. Navigate to http://mysterious-lake-23009.herokuapp.com/
 
 ### Server Deployment:
