@@ -95,7 +95,6 @@ def paths():
     return render_template(
         'pages/placeholder.paths.html',
         user=user,
-        path=path,
         courses_taken=courses_taken,
         degree_credits=degree_credits,
         last_path=json.loads(user.last_path),
@@ -147,7 +146,7 @@ def admin():
     )
 
 
-@app.route('/admin/editUser/<user_id>', methods=['GET', 'POST'])
+@app.route('/editUser/<user_id>', methods=['GET', 'POST'])
 def editUser(user_id):
     user = None
     if 'email' in session:
@@ -232,7 +231,7 @@ def savePath(user_id=None):
     db.session.add(save_path)
     db.session.commit()
 
-    return redirect(url_for('home'))
+    return redirect(url_for('paths'))
 
 @app.route('/getPath')
 @app.route('/getPath/<user_id>')
