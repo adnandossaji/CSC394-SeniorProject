@@ -41,7 +41,7 @@ class Search:
                 # construct child node 
                 child = current.addChild(course)
                 # if this schedule hasn't been seen before and is not already in the queue
-                if (tuple(child.taken_overall) not in explored) and child not in frontier):
+                if (tuple(child.taken_overall) not in explored) and child not in frontier:
                     # add it to the queue
                     frontier.push(child)
                 # if it is already on the queue, only consider the least cost one

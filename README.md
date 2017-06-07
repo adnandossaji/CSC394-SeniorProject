@@ -25,11 +25,26 @@
   $ pip install -r requirements.txt
   ```
 
+4. Choose the flask application for flask:
+  ```
+  $ export FLASK_APP=app.py
+  ```
+
+4. Initialize the flask database:
+  ```
+  $ flask db init
+  ```
+
+4. Seed the database:
+  ```
+  $ python seed_db.py
+  ```
+
 5. Run the development server:
   ```
   $ python app.py
   ```
 
-6. Navigate to [http://localhost:5000](http://localhost:5000)
+6. Navigate to [http://localhost:8000](http://localhost:8000)
 
 ### Server Deployment:
