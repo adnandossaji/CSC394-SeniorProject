@@ -208,70 +208,73 @@ class scraper(object):
                 # TODO: fix index ==> now does not need to be adjusted to make it 0 indexed
                 # adjust index i to be 0-indexed
                 reqs_and_courses = {'phase': None}
-                for i, c in enumerate(clean_courses):
-                    print(len(req_phases))
-                    print(len(clean_courses))
-                    # TODO: remove verification print
-                    if i < len(req_phases) - 1:
-                        reqs_and_courses = {'phase': req_phases[i]}
-                        # print("checking req_phases: " + str(req_phases[i]))
-                        # print("len of reqphases:" + str(len(req_phases)))
-                        # print(i)
-                        # print("clean courses[{}]:".format(i) + str(clean_courses[i]))
-                        # print(type(req_phases[i]))
-                        # print(req_phases[i-1])
-
-                        # req_phases[i] is a dict and not Research/Thesis options (only 1 choice per sublist)
-                        if isinstance(req_phases[i], dict) and req_phases[i].get('phase') != 'Research and Thesis Options':
-                            # there are nested course lists
-                            # create dictionary for the name of the phase and course
-                            # replace element in list that has matching req_phase
-                            # print("is dict: " + str(req_phases[i]))
-                            # z = i
-                            for z, phase in enumerate(req_phases[i].get('areas')):
-                                z += i
-                                print("z: " +str(z))
-                                print(phase)
-                                print(clean_courses[z])
-                                packed = pack_nested_reqs(phase, clean_courses[z])
-                                # clean_courses.pop(z)
-                                # reqs_and_courses.update({packed})
-                                [print(p, v) for p, v in packed.items()]
-
-                            i = z
-                            # TODO: remove prints
-                            print("END OF NESTED LIST")
-                            print(packed)
-                            print(reqs_and_courses)  # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
-                            print()
-                        else:  # req_phases[i] is NOT a list/dict
-                            # create dict, add reqphase; update the reqs and courses list
-                            options = ['CSC 500', 'CSC 695', 'CSC 698', 'CSC 697']
-
-                            research_thesis = {
-                                'phase' : 'Research and Thesis Options',
-                                'areas' : [
-                                    {
-                                        'phase'   : 'Research Colloquium',
-                                        'courses' : [options[0]]
-                                    },
-                                    {
-                                        'phase'   : 'Master\'s Research',
-                                        'courses' : [options[1]]
-                                    },
-                                    {
-                                        'phase'   : 'Master\'s Thesis',
-                                        'courses' : [options[2]]
-                                    },
-                                    {
-                                        'phase'   : 'Graduate Internship',
-                                        'courses' : [options[3]]
-                                    }
-                                ]
-                            }
-                            reqs_and_courses.update({'courses': list(c)})
-                            reqs_and_courses.update(research_thesis)
-                            print(reqs_and_courses)
+                print("RIGHT HIAH")
+                print(clean_courses)
+                return clean_courses
+                # for i, c in enumerate(clean_courses):
+                #     print(len(req_phases))
+                #     print(len(clean_courses))
+                #     # TODO: remove verification print
+                #     if i < len(req_phases) - 1:
+                #         reqs_and_courses = {'phase': req_phases[i]}
+                #         # print("checking req_phases: " + str(req_phases[i]))
+                #         # print("len of reqphases:" + str(len(req_phases)))
+                #         # print(i)
+                #         # print("clean courses[{}]:".format(i) + str(clean_courses[i]))
+                #         # print(type(req_phases[i]))
+                #         # print(req_phases[i-1])
+                #
+                #         # req_phases[i] is a dict and not Research/Thesis options (only 1 choice per sublist)
+                #         if isinstance(req_phases[i], dict) and req_phases[i].get('phase') != 'Research and Thesis Options':
+                #             # there are nested course lists
+                #             # create dictionary for the name of the phase and course
+                #             # replace element in list that has matching req_phase
+                #             # print("is dict: " + str(req_phases[i]))
+                #             # z = i
+                #             for z, phase in enumerate(req_phases[i].get('areas')):
+                #                 z += i
+                #                 print("z: " +str(z))
+                #                 print(phase)
+                #                 print(clean_courses[z])
+                #                 packed = pack_nested_reqs(phase, clean_courses[z])
+                #                 # clean_courses.pop(z)
+                #                 reqs_and_courses.update({packed})
+                #                 [print(p, v) for p, v in packed.items()]
+                #
+                #             i = z
+                #             # TODO: remove prints
+                #             print("END OF NESTED LIST")
+                #             print(packed)
+                #             print(reqs_and_courses)  # TODO: REMOVE REQS_AND_COURSES PRINT CHECK
+                #             print()
+                #         else:  # req_phases[i] is NOT a list/dict
+                #             # create dict, add reqphase; update the reqs and courses list
+                #             options = ['CSC 500', 'CSC 695', 'CSC 698', 'CSC 697']
+                #
+                #             research_thesis = {
+                #                 'phase' : 'Research and Thesis Options',
+                #                 'areas' : [
+                #                     {
+                #                         'phase'   : 'Research Colloquium',
+                #                         'courses' : [options[0]]
+                #                     },
+                #                     {
+                #                         'phase'   : 'Master\'s Research',
+                #                         'courses' : [options[1]]
+                #                     },
+                #                     {
+                #                         'phase'   : 'Master\'s Thesis',
+                #                         'courses' : [options[2]]
+                #                     },
+                #                     {
+                #                         'phase'   : 'Graduate Internship',
+                #                         'courses' : [options[3]]
+                #                     }
+                #                 ]
+                #             }
+                #             reqs_and_courses.update({'courses': list(c)})
+                #             reqs_and_courses.update(research_thesis)
+                #             print(reqs_and_courses)
 
 # adding research options
 #                     else:
@@ -511,7 +514,6 @@ class scraper(object):
 
 
 if __name__ == "__main__":
-    [print(i) for i in range(10,-1,-1)]
     tests = [
         "CSC 301 and CSC 373 and CSC 374",
         "CSC 301 or CSC 383 or CSC 393",
@@ -522,6 +524,7 @@ if __name__ == "__main__":
     # tree = [scraper.generate_bool_tree_array(test) for test in tests]
     # tree = scraper.generate_bool_tree_array("CSC 301 and CSC 373")
     # [print(t) for t in tree]
-    # s = scraper()
+    s = scraper()
+    print(s.reqs)
     # [print(r) for r in s.results]
 
