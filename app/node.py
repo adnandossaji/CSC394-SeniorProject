@@ -38,6 +38,7 @@ class Node:
 	'''adds course to current term, updates term/cost, returns new node'''
 	def addChild(self, course):
 		# copy courses taken so far and overall
+		# TODO: check if copy by reference or value
 		new_taken = copy.copy(self.taken)
 		new_taken_overall = copy.copy(self.taken_overall)
 

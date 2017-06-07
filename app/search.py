@@ -51,14 +51,19 @@ class Search:
     def validCourses(n, offered):
         
         available = []
+        new_quarter = n.quarter
 
-        for course in offered[n.quarter]:
+        # if assigned is full, this is a new quarter, check next quarter
+        if (len(self.assigned) == self.per_quarter):
+            (new_quarter, new_year) = self.getNextQuarter()
+
+        for course in offered[new_quarter]:
             subject = course.split(" ")[0]
             number = course.split(" ")[1]
-            course = Course.query.filter_by(subject = subject).filter_by(course_number = number).first()
+            q_course = Course.query.filter_by(subject = subject).filter_by(course_number = number).first()
 
-            if (subject + number) not in n.taken_overall and n.preqCheck(course) and course.day_of_week not in n.days:
-                available.append(course)
+            if (subject+" "+number) not in n.taken_overall and n.preqCheck(course) and course.day_of_week not in n.days:
+                available.append(q_course)
 
         # add non-course, i.e., not taking a course
         dummy_course = Course(
