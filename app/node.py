@@ -117,7 +117,7 @@ class Node:
 
 		return nextQuarters[self.quarter]
 
-	
+
 
 
 
