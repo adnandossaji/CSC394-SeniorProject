@@ -57,7 +57,7 @@ class Search:
             number = course.split(" ")[1]
             course = Course.query.filter_by(subject = subject).filter_by(course_number = number).first()
 
-            if course not in n.taken_overall and n.preqCheck(course) and course.day_of_week not in n.days:
+            if (subject + number) not in n.taken_overall and n.preqCheck(course) and course.day_of_week not in n.days:
                 available.append(course)
 
         # add non-course, i.e., not taking a course
@@ -100,7 +100,7 @@ class Search:
         # check that units requirement was met
         if (n.year == 2024):
             return True 
-            
+
         if (n.units_left > 0):
             print("here 1")
             return False
