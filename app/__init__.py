@@ -118,7 +118,7 @@ def getPath():
 
     # TODO: link here to database
     #use database to set up root node () and courses offered by quarter (treated here as a dictionary)
-    offered = dict{}
+    offered = dict()
     offered = {"Autumn": [], "Winter": [], "Spring": [], "Summer": []}
 
     for course in Courses.query.filter_by().all():

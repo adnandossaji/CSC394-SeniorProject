@@ -1,5 +1,5 @@
 from copy import copy
-from preq_tree import *
+from app.preq_tree import *
 
 class Node:
 	'''node object representing each assignment'''

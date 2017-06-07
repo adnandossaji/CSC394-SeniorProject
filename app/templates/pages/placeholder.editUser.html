@@ -1,0 +1,47 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Edit User{% endblock %}
+{% block content %}
+
+  <form method="post" class="form-signin">
+    <h3 class="form-heading">Edit User</h3>
+    <div class="form-group">
+      {{ form.name(class_ = 'form-control first-input', placeholder = form.name.label.text, required = true, autofocus = true) }}
+    </div>
+    <div class="form-group">
+      {{ form.email(class_ = 'form-control', placeholder = form.email.label.text, required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.program(class_ = 'form-control', placeholder = "Program", required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.concentration(class_ = 'form-control', placeholder = "Concentration", required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.role(class_ = 'form-control', placeholder = "Concentration", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.start_term(class_ = 'form-control', placeholder = "Starting Term", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.start_year(class_ = 'form-control', placeholder = "Starting Year", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.delivery_type(class_ = 'form-control', placeholder = "Delivery Preference", required = true) }}
+    </div>
+    
+    <div class="form-group">
+      {{ form.classes_per_term(class_ = 'form-control', placeholder = "Classes per Term", required = true) }}
+    </div>
+
+    <div class="form-group">
+      {{ form.submit(class_ = 'btn btn-primary btn-lg btn-block') }}
+    </div>
+  </form>
+
+{% endblock %}
