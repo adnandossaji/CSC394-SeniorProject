@@ -14,7 +14,7 @@ class Priority:
     def push(self, node):
         c = self.f(node)
         heapq.heappush(self.queue, (c, self.count, node)) 
-        self.lookup[node] = [c, self.count, node]
+        self.lookup[tuple(node.taken_overall)] = [c, self.count, node]
         self.count += 1
         self.space += 1
 
@@ -33,12 +33,12 @@ class Priority:
         self.queue.remove(index)
         heapq.heapify(self.queue)
 
-        del self.lookup[node] 
+        del self.lookup[tuple(node.taken_overall)] 
 
     def replace(self, node):
         try:
-            (cost, check, count) = self.lookup[node]
-            if (cost <= node.num_terms):
+            (cost, check, count) = self.lookup[tuple(node.taken_overall)]
+            if (cost <= node.num_quarters):
                 # if what's on queue is already lowest, do nothing; return
                 return 
             else:
@@ -58,7 +58,7 @@ class Priority:
         return (self.f(self), self.count) < (new.f(new), new.count)
         
     def __contains__(self, node):
-        return node in self.lookup
+        return tuple(node.taken_overall) in self.lookup
 
     def __len__(self):
         return self.space
