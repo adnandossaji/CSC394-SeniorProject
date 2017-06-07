@@ -9,7 +9,6 @@ from app.scraper import scraper
 
 from app.node import *
 from app.search import *
-from app.dummyCourse import *
 from app.models import *
 
 import os
@@ -203,26 +202,53 @@ def getPath(user_id=None):
     #use database to set up root node () and courses offered by quarter (treated here as a dictionary)
     offered = dict()
     offered = {"Autumn": [], "Winter": [], "Spring": [], "Summer": []}
-
-    for course in Courses.query.filter_by().all():
-        offered[course.quarter_offered].append(course.course_id)
+    
+    for course in Course.query.all():
+        quarter_offered = json.loads(course.quarter_offered.replace('\'', "\""))
+        for off in quarter_offered:
+            if (off == "As Needed"):
+                offered["Autumn"].append("{} {}".format(course.subject, course.course_number))
+                offered["Spring"].append("{} {}".format(course.subject, course.course_number))
+                offered["Summer"].append("{} {}".format(course.subject, course.course_number))
+                offered["Winter"].append("{} {}".format(course.subject, course.course_number))
+            if (off == "Autumn"):
+                offered[off].append("{} {}".format(course.subject, course.course_number))
+            if (off == "Spring"):
+                offered[off].append("{} {}".format(course.subject, course.course_number))
+            if (off == "Summer"):
+                offered[off].append("{} {}".format(course.subject, course.course_number))
+            if (off == "Winter"):
+                offered[off].append("{} {}".format(course.subject, course.course_number))
 
     # TODO: use hardcoded electives, concentration etc. courses here, and use appropriate one for given major concentration
 
     assigned = []
     days = []
 
-    taken = user.taken
+    taken = set(user.taken.split(","))
 
-    units_left = 52
+    units_left = 24
     for course in taken:
         units_left -= 4
 
+
+
     # def __init__(self, num_quarters, assigned, taken, taken_overall, days, units_left, quarter, year, per_quarter, parent):
-    root = (0, assigned, user.taken, user.taken, days, units_left, user.start_term, user.start_year, user.classes_per_term, None)
+    root = Node(0, assigned, set(), set(), days, units_left, "Autumn", 2017, user.classes_per_term, None)
 
-    path = Search.aStar(root, offered, intro, concentration)
+    requirements = [['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407'], 
+    ['CSC 421 ', 'CSC 435', 'CSC 447', 'CSC 453', 'SE 450'], 
+    ['CSC 436', 'CSC 438', 'CSC 439', 'CSC 443', 'CSC 448', 'CSC 461', 'CSC 462', 'CSC 471', 'CSC 472', 'CSC 475', 'CSC 534', 'CSC 536', 'CSC 540', 'CSC 548', 'CSC 549', 'CSC 551', 'CSC 552', 'CSC 553', 'CSC 595', 'CNS 450', 'GAM 690', 'GAM 691', 'HCI 441', 'SE 441', 'SE 452', 'SE 459', 'SE 525', 'SE 526', 'SE 554', 'SE 560', 'TDC 478', 'TDC 484', 'TDC 568'], 
+    ['CSC 431', 'CSC 440', 'CSC 444', 'CSC 489', 'CSC 503', 'CSC 521', 'CSC 525', 'CSC 531', 'CSC 535', 'CSC 547', 'CSC 557', 'CSC 580', 'CSC 591', 'SE 533'], 
+    ['CSC 423', 'CSC 424', 'CSC 425', 'CSC 428', 'CSC 433', 'CSC 465', 'CSC 478', 'CSC 481', 'CSC 482', 'CSC 495', 'CSC 529', 'CSC 555', 'CSC 575', 'CSC 578', 'CSC 594', 'CSC 598', 'CSC 672', 'ECT 584', 'IS 467'], 
+    ['CSC 433', 'CSC 452', 'CSC 454', 'CSC 478', 'CSC 529', 'CSC 543', 'CSC 549', 'CSC 551', 'CSC 553', 'CSC 554', 'CSC 555', 'CSC 575', 'CSC 589'], 
+    ['CSC 457', 'CSC 458', 'CSC 478', 'CSC 480', 'CSC 481', 'CSC 482', 'CSC 495', 'CSC 528', 'CSC 529', 'CSC 538', 'CSC 575', 'CSC 576', 'CSC 577', 'CSC 578', 'CSC 583', 'CSC 587', 'CSC 592', 'CSC 594', 'ECT 584', 'GEO 441', 'GEO 442', 'IS 467'], 
+    ['SE 430', 'SE 433', 'SE 441', 'SE 452', 'SE 453', 'SE 456', 'SE 457', 'SE 459', 'SE 475', 'SE 477', 'SE 480', 'SE 482', 'SE 491', 'SE 525', 'SE 526', 'SE 529', 'SE 533', 'SE 546', 'SE 549', 'SE 554', 'SE 556', 'SE 560', 'SE 579', 'SE 581', 'SE 582', 'SE 591'], 
+    ['CSC 461', 'CSC 462', 'GAM 450', 'GAM 453', 'GAM 475', 'GAM 476', 'GAM 486', 'GAM 490', 'GAM 575', 'GAM 576', 'GAM 690', 'GAM 691', 'GPH 436', 'GPH 469', 'GPH 570', 'GPH 572', 'GPH 580', 'HCI 440', 'SE 456', 'SE 556']]
 
+    path = Search.aStar(root, offered, requirements[0]+requirements[1], [],  0)
+
+    print(path)
     return render_template(
         'pages/placeholder.home.html', 
         path=path, 

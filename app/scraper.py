@@ -11,6 +11,7 @@ import webbrowser
 from contextlib import closing
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import lxml
 import time
 import json
 import csv
@@ -68,7 +69,7 @@ class scraper(object):
         # open the web page
         with closing(urlopen(COURSE_CATALOG)) as page:
             xml = page.read()
-            soup = BeautifulSoup(xml, features="xml")
+            soup = BeautifulSoup(xml, features="lxml")
             # TODO: remove [ used to locate
             print("    =============================================")
             print("    ||      >>> COURSE SCRAPER CREATED <<<     || ")
