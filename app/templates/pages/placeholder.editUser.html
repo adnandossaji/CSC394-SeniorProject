@@ -63,9 +63,11 @@
         </div>
       </div>
       <div class="col-md-6">
+        {% if user.role.name != "Student" %}
         <div class="form-group">
           {{ form.taken(class_ = 'form-control', multiple="multiple", id="example") }}
         </div>
+        {% endif %}
       </div>
     </div>
 
