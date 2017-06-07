@@ -10,7 +10,7 @@ class Search:
 
 
     ''' a* algorithm for searching for shortest path adapted from psuedocode of Norvig and Russel's AI: A Modern Approach '''
-    def aStar(root, offered, required, electives):
+    def aStar(root, offered, required, electives, num_electives):
         # priority queue with quick lookup prioritized by heuristic function f
         frontier = Priority(Search.f)
 
@@ -55,7 +55,7 @@ class Search:
                      n.preqCheck(course) and course.day not in n.days]
 
         # add non-course, i.e., not taking a course
-        available.append(DummyCourse(0, [[]], 0, 0))
+        available.append(DummyCourse("None", "None", 0, 0))
 
         return available
 
@@ -95,7 +95,7 @@ class Search:
             if elec.course_id not in n.taken_overall:
                 elec_count += 1
 
-        if elec_count < 1:
+        if elec_count < num_electives:
             return False
 
         return True

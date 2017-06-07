@@ -113,58 +113,30 @@ def getPath():
     }
     '''
 
-
-    # dummy course information 
-    # intro
-    CS400 = DummyCourse(400, [[]], 4, 0)
-    CS401 = DummyCourse(401, [[]], 4, 0)
-    CS402 = DummyCourse(402, [[CS401]], 4, 0)
-    CS403 = DummyCourse(403, [[CS402]], 4, 0)
-    CS406 = DummyCourse(406, [[CS401]], 4, 0)
-    CS407 = DummyCourse(407, [[CS406], [CS402]], 4, 0)
-    CS408 = DummyCourse(408, [[CS401]], 4, 0)
-    CS409 = DummyCourse(409, [[]], 4, 0)
-    CS410 = DummyCourse(410, [[]], 4, 0)
-
-    intro = [CS400, CS401, CS402, CS403, CS406, CS407]
-
-    # foundation
-    CS421 = DummyCourse(421, [[CS400], [CS403]], 4, 0)
-    CS435 = DummyCourse(435, [[CS403], [CS407]], 4, 0)
-    CS447 = DummyCourse(447, [[CS403], [CS406]], 4, 0)
-    CS453 = DummyCourse(453, [[CS403]], 4, 0)
-    SE450 = DummyCourse(450, [[CS403]], 4, 0)
-    CS500 = DummyCourse(500, [[CS447, CS435], [CS421]], 4, 0)
-
-    foundation = [CS421, CS435, CS447, CS453, SE450]
-
-    # concentration (software and systems development)
-    CS436 = DummyCourse(436, [[CS435], [CS447]], 4, 0)
-    CS438 = DummyCourse(438, [[CS407]], 4, 0)
-    CS461 = DummyCourse(461, [[CS400], [CS403], [CS406]], 4, 0)
-    CS472 = DummyCourse(472, [[CS403], [CS407]], 4, 0)
-    CS552 = DummyCourse(552, [[SE450], [CS407]], 4, 0)
-    CS595 = DummyCourse(595, [[]], 4, 0)
-    SE452 = DummyCourse(452, [[CS403]], 4, 0)
-    SE459 = DummyCourse(459, [[SE450]], 4, 0)
-    SE491 = DummyCourse(491, [[SE450]], 4, 0)
-
-    concentration = [CS436, CS438, CS461, CS472, CS552, CS595, SE459, SE491]
-    everyterm = intro + foundation + concentration
-
-    offered = {"Fall": everyterm, "Winter": everyterm, "Spring": everyterm, "Summer": intro+foundation}
-
-     # create search object
+    # create search object
     Path = Search()
 
-    # dummy taken list (empty)
-    taken = set()
+    # TODO: link here to database
+    #use database to set up root node () and courses offered by quarter (treated here as a dictionary)
+    offered = dict{}
+    offered = {"Autumn": [], "Winter": [], "Spring": [], "Summer": []}
 
-    # dummy units left
-    units = 52
+    for course in Courses.query.filter_by().all():
+        offered[course.quarter_offered].append(course.course_id)
 
-    # dummy root node for path generation (2 quarters per quarter, empty assigned and taken, starting Fall 2017)
-    root = Node(0, [], taken, taken, [], units, "Fall", 2017, 2, None)
+    # TODO: use hardcoded electives, concentration etc. courses here, and use appropriate one for given major concentration
+
+    assigned = []
+    days = []
+
+    taken = user.taken
+
+    units_left = 52
+    for course in taken:
+        units_left -= 4
+
+    # def __init__(self, num_quarters, assigned, taken, taken_overall, days, units_left, quarter, year, per_quarter, parent):
+    root = (0, assigned, user.taken, user.taken, days, units_left, user.start_term, user.start_year, user.classes_per_term, None)
 
     path = Search.aStar(root, offered, intro, concentration)
 

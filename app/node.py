@@ -1,4 +1,5 @@
 from copy import copy
+from preq_tree import *
 
 class Node:
 	'''node object representing each assignment'''
@@ -94,23 +95,20 @@ class Node:
 
 	''' checks if course has prerequisites already met '''
 	def preqCheck(self, course):
-		# check if empty		
-		if len(course.prereqs) == 1:
-			if not course.prereqs[0]:
-				return True
-
-
-		for and_clause in course.prereqs:
-			# boolean to see if at least 1 'or' is met (resets every and-clause) 
-			someMet = False
-			for or_clause in and_clause:
-				if or_clause.course_id in self.taken:
-					# don't need to check rest of or_clause
-					someMet = True
-					break
-			if (someMet == False):
+		if course.prereqs == "None":
+			return True 
+		else:
+			if not self.taken:
 				return False
-		return True
+			else: 
+				# check if just single prereq
+				test = course.prereqs.split()
+				if len(test) == 2:
+					return course.prereqs in self.taken
+				else:
+					a = bool_tree()
+					a.root = a.tree_from_prereq_str(course.prereqs)
+					return a.evaluate(self.taken)
 
 	''' helper function to get next quarter '''
 	def getNextQuarter(self):
