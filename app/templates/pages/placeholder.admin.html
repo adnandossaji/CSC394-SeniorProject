@@ -25,17 +25,27 @@
 							<th>Name</th>
 							<th>Email</th>
 							<th>Role</th>
-							<th>Edit</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for user in users %}
+						{% for user_obj in users %}
 						<tr>
-							<td>{{ user.name }}</td>
-							<td>{{ user.email }}</td>
-							<td>{{ user.role.name }}</td>
+							<td>{{ user_obj.name }}</td>
+							<td>{{ user_obj.email }}</td>
+							<td>{{ user_obj.role.name }}</td>
 							<td>
-								<button class="btn btn-primary">Edit</button>
+								<a class="btn btn-primary" href="/admin/editUser/{{ user.id }}">
+								  Edit
+								</a>
+							</td>
+							<td>
+								{% if user_obj.role.name == "Student" %}
+								<a class="btn btn-primary" href="/profile/{{ user_obj.id }}">
+								  Login As
+								</a>
+								{% endif %}
 							</td>
 						</tr>
 						{% endfor %}

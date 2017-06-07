@@ -21,6 +21,14 @@
 				</div>
 				<table class="table table-striped">
 					<tr>
+						<td>Username:</td>
+						<td>{{ user.name }}</td>
+					</tr>
+					<tr>
+						<td>Email:</td>
+						<td>{{ user.email }}</td>
+					</tr>
+					<tr>
 						<td>Program:</td>
 						<td>{{ user.program }}</td>
 					</tr>
@@ -113,7 +121,7 @@
 				<!-- Start Path Footer -->
 				<div class="panel-footer">
 					<div class="btn-group btn-group-justified">
-						<a href="/getPath" class="btn btn-primary">New Path</a>
+						<a href="/getPath/{{ user.id }}" class="btn btn-primary">New Path</a>
 						<a href="#" class="btn btn-danger">Save Path</a>
 					</div>
 				</div>

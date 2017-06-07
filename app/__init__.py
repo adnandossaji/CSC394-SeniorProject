@@ -64,12 +64,31 @@ def home(path=None):
     else:
         return redirect(url_for('login'))
     
+    if user.role.name == "Faculty" or user.role.name == "Admin":
+        return redirect(url_for('admin'))
+
     return render_template(
         'pages/placeholder.home.html',
         user=user,
         path=path
     )
 
+@app.route('/profile/<user_id>')
+def profile(path=None, user_id=None):
+    user = None
+
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else:
+        return redirect(url_for('login'))
+
+    user = User.query.filter_by(id = user_id).first()
+
+    return render_template(
+        'pages/placeholder.home.html',
+        user=user,
+        path=path
+    )
 
 @app.route('/admin')
 def admin():
@@ -79,7 +98,10 @@ def admin():
     else:
         render_template('errors/404.html')
 
-    users = User.query.all()
+    if user.role.name == "Faculty":
+        users = User.query.filter_by(role_id = "3").all()
+    else:
+        users = User.query.all()
     
     return render_template(
         'pages/placeholder.admin.html',
@@ -87,8 +109,66 @@ def admin():
         users=users
     )
 
+
+@app.route('/admin/editUser/<user_id>', methods=['GET', 'POST'])
+def editUser(user_id):
+    user = None
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else:
+        render_template('errors/404.html')
+
+    form = EditUserForm(request.form)
+
+    edit_user = User.query.filter_by(id = user_id).first()
+
+    if request.method == 'POST':
+        
+        if form.validate() == False:
+            return render_template(
+                'pages/placeholder.editUser.html',
+                user=user,
+                form=form
+            )
+        else:
+
+            edit_user.name = form.name.data
+            edit_user.email = form.email.data
+            edit_user.role_id = form.role.data
+            edit_user.program = form.program.data
+            edit_user.concentration = form.concentration.data
+            edit_user.start_term = form.start_term.data
+            edit_user.start_year = form.start_year.data
+            edit_user.delivery_type = form.delivery_type.data
+            edit_user.classes_per_term = form.classes_per_term.data
+
+            curr_db = db.session.object_session(edit_user)
+            curr_db.commit()
+
+            return render_template('pages/placeholder.home.html', user=user)
+
+    elif request.method == 'GET':
+
+        form.name.data = edit_user.name
+        form.email.data = edit_user.email
+        form.program.data = edit_user.program
+        form.concentration.data = edit_user.concentration
+        form.role.data = str(edit_user.role_id)
+        form.start_term.data = edit_user.start_term
+        form.start_year.data = edit_user.start_year
+        form.classes_per_term.data = edit_user.classes_per_term
+
+        return render_template(
+            'pages/placeholder.editUser.html',
+            user=user,
+            form=form
+        )
+
+
+
 @app.route('/getPath')
-def getPath():
+@app.route('/getPath/<user_id>')
+def getPath(user_id=None):
 
     user = None
 
@@ -96,6 +176,9 @@ def getPath():
         user = User.query.filter_by(email = session['email']).first()
     else:
         return redirect(url_for('login'))
+
+    if user_id:
+        user = User.query.filter_by(id = user_id).first()
 
    
     # dummy path data
