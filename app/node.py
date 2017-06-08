@@ -69,7 +69,7 @@ class Node:
 
 
 		return Node(new_num_quarters, new_assigned,  new_taken, new_taken_overall, new_days, 
-					self.units_left - course.credits, new_quarter, new_year, self.per_quarter, self)
+					self.units_left - int(course.credits), new_quarter, new_year, self.per_quarter, self)
 
 
 	''' generates solution by working up to root of tree '''
