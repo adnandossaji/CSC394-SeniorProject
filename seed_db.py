@@ -1,7 +1,7 @@
 import sqlite3
 
 def main():
-    con = sqlite3.connect('database.db')
+    con = sqlite3.connect('../database.db')
 
     sql_file = open("seed.sql", "r").read()
 
