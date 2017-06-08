@@ -6,6 +6,21 @@
   * Ashwin Sharma
   * Adnan Dossaji
 
+### WE ARE SUCCESFULLY DEPLOYED ON HEROKU:
+  ```
+    http://mysterious-lake-23009.herokuapp.com/
+  ```
+
+### Username:
+  ```
+    admin@mail.depaul.edu
+  ```
+
+### Password:
+  ```
+    admin
+  ```
+
 ### Setup:
 
 1. Clone the repo
@@ -46,6 +61,5 @@
   ```
 
 6. Navigate to [http://localhost:8000](http://localhost:8000)
-7. Navigate to http://mysterious-lake-23009.herokuapp.com/
 
 ### Server Deployment:
