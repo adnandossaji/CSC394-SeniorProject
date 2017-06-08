@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from flask_migrate import Migrate
 import logging
 from logging import Formatter, FileHandler
@@ -77,6 +78,35 @@ def home(path=None):
         degree_credits=degree_credits,
         last_path=json.loads(user.last_path)
     )
+
+@app.route('/seedDB')
+def seedDB():
+    user = None
+
+    if 'email' in session:
+        user = User.query.filter_by(email = session['email']).first()
+    else:
+        return redirect(url_for('login'))
+
+    role = UserRole("Admin")
+    db.session.add(role)
+
+    role_2 = UserRole("Faculty")
+    db.session.add(role_2)
+
+    role_3 = UserRole("Student")
+    db.session.add(role_3)
+
+    user = User('admin','admin@mail.depaul.edu','admin',1,0,'Information Systems','Software and Systems Development','Autumn',2017,'In-Class Only',1,'[]','{}')
+    db.session.add(user)
+
+    db.session.commit()
+
+
+    courses_taken = [Course.query.filter_by(id = x).first().title() for x in json.loads(user.taken)]
+    degree_credits = len(courses_taken) * 4
+
+    return redirect(url_for('home'))
 
 @app.route('/paths')
 def paths():
