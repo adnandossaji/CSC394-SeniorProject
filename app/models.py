@@ -96,7 +96,7 @@ class Course(Base):
     delivery_method = db.Column(db.Integer, nullable=False)
 
 
-    def __init__(self, subject, course_number, prereq, day_of_week, credits, description, quarter_offered, delivery_method):
+    def __init__(self, subject, course_number, prereq, credits, day_of_week, description, quarter_offered, delivery_method):
         self.subject = subject
         self.course_number = course_number
         self.prereq = prereq

@@ -391,17 +391,17 @@ def seedDB():
         Course('HCI',522,'[]',4,'Fri','','["Not Offered"]',0)
     ]
 
-    role = UserRole("Admin")
-    db.session.add(role)
+    # role = UserRole("Admin")
+    # db.session.add(role)
 
-    role_2 = UserRole("Faculty")
-    db.session.add(role_2)
+    # role_2 = UserRole("Faculty")
+    # db.session.add(role_2)
 
-    role_3 = UserRole("Student")
-    db.session.add(role_3)
+    # role_3 = UserRole("Student")
+    # db.session.add(role_3)
 
-    user = User('admin','admin@mail.depaul.edu','admin',1,0,'Information Systems','Software and Systems Development','Autumn',2017,'In-Class Only',1,'[]','{}')
-    db.session.add(user)
+    # user = User('admin','admin@mail.depaul.edu','admin',1,0,'Information Systems','Software and Systems Development','Autumn',2017,'In-Class Only',1,'[]','{}')
+    # db.session.add(user)
 
     for course in courses:
         db.session.add(course)
