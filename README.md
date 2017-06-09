@@ -21,6 +21,12 @@
     admin
   ```
 
+If you have an error on our deployed site. Hit this link and logging in again.
+
+  ```
+    http://mysterious-lake-23009.herokuapp.com/seedDB
+  ```
+
 ### Setup:
 
 1. Clone the repo
