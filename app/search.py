@@ -32,7 +32,7 @@ class Search:
             explored.add(tuple(current.taken_overall))
 
             # for all valid courses
-            for course in Search.validCourses(current, offered, required):
+            for course in Search.validCourses(current, offered):
                 # construct child node 
                 child = current.addChild(course)
                 # if this schedule hasn't been seen before and is not already in the queue
