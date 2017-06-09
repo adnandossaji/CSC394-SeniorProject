@@ -252,39 +252,15 @@ def getPath(user_id=None):
     if user_id:
         user = User.query.filter_by(id = user_id).first()
 
-   
-    # dummy path data
-    '''
-    path = {
-    'Fall 2017': ['CSC 402', 'CSC 403'],
-    'Winter 2017': ['CSC 406', 'CSC 407'],
-    'Spring 2018': ['CSC 421', 'CSC 435'],
-    'Summer 2018': ['CSC 447', 'CSC 453'],
-    'Fall 2018': ['SE 450', 'CSC 436'],
-    'Winter 2018': ['CSC 438', 'CSC 439'],
-    'Spring 2019': ['CSC 443', 'CSC 448'],
-    'Summer 2019': ['CSC 461', 'CSC 462'],
-    'Fall 2019': ['CSC 471']
-    }
-    '''
-
     # create search object
     Path = Search()
 
-    # TODO: link here to database
-    #use database to set up root node () and courses offered by quarter (treated here as a dictionary)
-    # offered = {
-    #     "Autumn": ['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407'],
-    #     "Winter": ['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407'],
-    #     "Spring": ['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407'],
-    #     "Summer": ['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407']
-    # }
+    # create dictionary of offered courses
     offered = {"Autumn": [], "Winter": [], "Spring": [], "Summer": []}
     
-
     requirements = [
-        ['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406', 'CSC 407'], 
-        ['CSC 421 ', 'CSC 435', 'CSC 447', 'CSC 453', 'SE 450'], 
+        ['CSC 400', 'CSC 401', 'CSC 402', 'CSC 403', 'CSC 406'], 
+        ['CSC 421', 'CSC 435', 'CSC 447', 'CSC 453', 'SE 450'], 
         ['CSC 436', 'CSC 438', 'CSC 439', 'CSC 443', 'CSC 448', 'CSC 461', 'CSC 462', 'CSC 471', 'CSC 472', 'CSC 475', 'CSC 534', 'CSC 536', 'CSC 540', 'CSC 548', 'CSC 549', 'CSC 551', 'CSC 552', 'CSC 553', 'CSC 595', 'CNS 450', 'GAM 690', 'GAM 691', 'HCI 441', 'SE 441', 'SE 452', 'SE 459', 'SE 525', 'SE 526', 'SE 554', 'SE 560', 'TDC 478', 'TDC 484', 'TDC 568'], 
         ['CSC 431', 'CSC 440', 'CSC 444', 'CSC 489', 'CSC 503', 'CSC 521', 'CSC 525', 'CSC 531', 'CSC 535', 'CSC 547', 'CSC 557', 'CSC 580', 'CSC 591', 'SE 533'], 
         ['CSC 423', 'CSC 424', 'CSC 425', 'CSC 428', 'CSC 433', 'CSC 465', 'CSC 478', 'CSC 481', 'CSC 482', 'CSC 495', 'CSC 529', 'CSC 555', 'CSC 575', 'CSC 578', 'CSC 594', 'CSC 598', 'CSC 672', 'ECT 584', 'IS 467'], 
@@ -294,38 +270,60 @@ def getPath(user_id=None):
         ['CSC 461', 'CSC 462', 'GAM 450', 'GAM 453', 'GAM 475', 'GAM 476', 'GAM 486', 'GAM 490', 'GAM 575', 'GAM 576', 'GAM 690', 'GAM 691', 'GPH 436', 'GPH 469', 'GPH 570', 'GPH 572', 'GPH 580', 'HCI 440', 'SE 456', 'SE 556']
     ]
 
-    for course in Course.query.all():
-        quarter_offered = json.loads(course.quarter_offered.replace('\'', "\""))
-        for off in quarter_offered:
-            if (off == "As Needed"):
-                offered["Autumn"].append("{} {}".format(course.subject, course.course_number))
-                offered["Spring"].append("{} {}".format(course.subject, course.course_number))
-                offered["Summer"].append("{} {}".format(course.subject, course.course_number))
-                offered["Winter"].append("{} {}".format(course.subject, course.course_number))
-            if (off == "Autumn"):
-                offered[off].append("{} {}".format(course.subject, course.course_number))
-            if (off == "Spring"):
-                offered[off].append("{} {}".format(course.subject, course.course_number))
-            if (off == "Summer"):
-                offered[off].append("{} {}".format(course.subject, course.course_number))
-            if (off == "Winter"):
-                offered[off].append("{} {}".format(course.subject, course.course_number))
+    # try and add requirements before other courses
+    check = requirements[0] + requirements[1] + requirements[2] + requirements[3]
+    for req in check:
+        (sub, num) = req.split(" ")
+        course = Course.query.filter_by(subject = sub).filter_by(course_number = num).first()
 
-    # TODO: use hardcoded electives, concentration etc. courses here, and use appropriate one for given major concentration
+        quarter_offered = json.loads(course.quarter_offered.replace('\'', "\""))
+
+        for off in quarter_offered:
+            if (off == "Not Offered"):
+                continue
+            elif (off == "As Needed"):
+                offered["Autumn"].append(course)
+                offered["Spring"].append(course)
+                offered["Summer"].append(course)
+                offered["Winter"].append(course) 
+            elif (off == "EO Academic Year"):
+                continue
+            else:
+                offered[off].append(course)
+
+    for course in Course.query.all():
+        if "{} {}".format(course.subject, course.course_number) not in check:
+            quarter_offered = json.loads(course.quarter_offered.replace('\'', "\""))
+            for off in quarter_offered:
+                if (off == "As Needed"):
+                    offered["Autumn"].append(course)
+                    offered["Spring"].append(course)
+                    offered["Summer"].append(course)
+                    offered["Winter"].append(course)
+                if (off == "Autumn"):
+                    offered[off].append(course)
+                if (off == "Spring"):
+                    offered[off].append(course)
+                if (off == "Summer"):
+                    offered[off].append(course)
+                if (off == "Winter"):
+                    offered[off].append(course)
 
     assigned = []
     days = []
 
+    # get user's taken courses
     taken = set(user.taken.split(","))
 
-    units_left = 24
-    # for course in taken:
-    #     units_left -= 4
+    # subtract course credits from taken courses to get units left
+    units_left = 52
+    for course in taken:
+        units_left -= 4
 
     # def __init__(self, num_quarters, assigned, taken, taken_overall, days, units_left, quarter, year, per_quarter, parent):
-    root = Node(0, assigned, set(), set(), days, units_left, "Autumn", 2017, user.classes_per_term, None)
+    root = Node(0, assigned, taken, taken, days, units_left, "Autumn", 2017, user.classes_per_term, None)
 
-    path = Search.aStar(root, offered, requirements[0]+requirements[1], [],  0)
+    path = Search.aStar(root, offered, requirements[0]+requirements[1], requirements[2],  4)
 
     courses_taken = [Course.query.filter_by(id = x).first().title() for x in json.loads(user.taken)]
     degree_credits = len(courses_taken) * 4

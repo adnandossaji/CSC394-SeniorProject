@@ -94,7 +94,7 @@ class bool_tree(object):
 
     def __evaluate_subtree(self, subtree, taken):
             # determine if subtree is a nested expression
-            # print(lhs.course)
+            # #print(lhs.course)
             if subtree == None:
                 return True
             if subtree.n_type == node_type.COURSE:
@@ -150,7 +150,7 @@ class bool_tree(object):
                 elif self.pos < len(tokenized):
                     if token_str[0] == '(':
                         rhs = self.to_bool_tree(" ".join(tokenized), self.pos)
-                        print(tokenized[self.pos])
+                        #print(tokenized[self.pos])
                     elif (token_str == "or" or token_str == "and"):
                             # rhs = bool_node()
                             if self.pos >= 2 and self.pos <= len(tokenized) - 2:
@@ -158,7 +158,7 @@ class bool_tree(object):
                                     left = lhs,
                                     in_node_type=tokenized[self.pos]
                                 )
-                                print(tokenized[self.pos])
+                                #print(tokenized[self.pos])
                                 if self.pos + 1 < len(tokenized): # and tokenized[self.pos + 1][0] != '(':
                                     lhs.right= bool_node(
                                         course=" ".join([tokenized[self.pos + 1], tokenized[self.pos + 2]]),
@@ -194,4 +194,4 @@ if __name__ == "__main__":
     e = d.evaluate(["IT 240","CSC 355", "(CSC 200"])
     e = d.evaluate(["IT 240","CSC 355", "CSC 212","CSC 242","CSC 243", "CSC 262","CSC 224","CSC 300", "CSC 309"])
     e = d.evaluate(["IT 240","CSC 355"])
-    print(x, y, z, ai, e)
+    #print(x, y, z, ai, e)
